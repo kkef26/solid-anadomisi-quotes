@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Πελάτες — Solid Anadomisi</title>
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0B2265">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Πελάτες">
+<link rel="apple-touch-icon" href="/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #0B2265;
+  --green: #3FAE5A;
+  --green-hover: #2d8e45;
+  --steel: #1F2937;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: #F3F4F6; font-family: 'Open Sans', sans-serif; color: var(--steel); }
+
+/* ── App Shell ── */
+.app-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--blue);
+  padding: calc(14px + var(--safe-top)) 16px 14px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.app-bar-logo { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; }
+.app-bar-logo svg { width:18px; height:18px; }
+.app-bar-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:17px; color:#fff; flex:1; }
+.app-bar-count { font-size:12px; color:rgba(255,255,255,0.6); font-weight:600; }
+.btn-add-fab {
+  position: fixed;
+  bottom: calc(24px + var(--safe-bottom));
+  right: 20px; z-index: 200;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--green); color: #fff; border: none;
+  font-size: 28px; font-weight: 300; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(63,174,90,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-add-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(63,174,90,0.6); }
+.btn-add-fab:active { transform: scale(0.95); }
+
+/* ── Search bar ── */
+.search-bar {
+  position: fixed;
+  top: calc(62px + var(--safe-top));
+  left: 0; right: 0; z-index: 90;
+  background: var(--blue);
+  padding: 0 16px 12px;
+}
+.search-input-wrap { position: relative; }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.5); }
+.search-input {
+  width: 100%; background: rgba(255,255,255,0.12); border: none; border-radius: 10px;
+  padding: 11px 12px 11px 38px; font-size: 15px; color: #fff;
+  font-family: 'Open Sans', sans-serif;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.45); }
+.search-input:focus { outline: none; background: rgba(255,255,255,0.18); }
+
+/* ── Content ── */
+.content {
+  padding-top: calc(130px + var(--safe-top));
+  padding-bottom: calc(88px + var(--safe-bottom));
+  min-height: 100%;
+}
+
+/* ── Client cards ── */
+.section-label {
+  font-family:'Montserrat',sans-serif; font-weight:700; font-size:10px;
+  color:#9CA3AF; text-transform:uppercase; letter-spacing:.8px;
+  padding: 12px 16px 6px;
+}
+.client-card {
+  background: #fff; margin: 0 12px 8px;
+  border-radius: 12px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  cursor: pointer; transition: transform .12s, box-shadow .12s;
+  position: relative; overflow: hidden;
+}
+.client-card:active { transform: scale(0.98); }
+.client-avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: var(--blue); color: #fff;
+  font-family:'Montserrat',sans-serif; font-weight:800; font-size:15px;
+  display: flex; align-items: center; justify-content: center;
+}
+.client-info { flex: 1; min-width: 0; }
+.client-name { font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; color:var(--steel); }
+.client-meta { font-size:12px; color:#6B7280; margin-top:3px; display:flex; gap:8px; flex-wrap:wrap; }
+.client-meta span { display:flex; align-items:center; gap:3px; }
+.client-chevron { color:#D1D5DB; font-size:18px; flex-shrink:0; }
+
+.empty-state {
+  text-align: center; padding: 60px 24px;
+  color: #9CA3AF;
+}
+.empty-state svg { opacity:.3; margin-bottom:16px; }
+.empty-state p { font-size:15px; font-weight:600; color:#6B7280; margin-bottom:6px; }
+.empty-state small { font-size:13px; }
+
+/* ── Offline banner ── */
+.offline-banner {
+  display: none; position: fixed; top: calc(130px + var(--safe-top));
+  left: 0; right: 0; z-index: 80;
+  background: #FEF3C7; border-bottom: 1px solid #FCD34D;
+  padding: 8px 16px; font-size:12px; color:#92400E; text-align:center;
+  font-weight: 600;
+}
+.offline-banner.show { display: block; }
+
+/* ── Drawer / Modal ── */
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(2px);
+}
+.overlay.open { display: block; }
+.drawer {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 0 0 calc(20px + var(--safe-bottom));
+  transform: translateY(100%); transition: transform .3s cubic-bezier(.32,.72,0,1);
+  max-height: 92vh; overflow-y: auto;
+}
+.drawer.open { transform: translateY(0); }
+.drawer-handle { width: 40px; height: 4px; background: #E5E7EB; border-radius: 2px; margin: 12px auto 0; }
+.drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid #F3F4F6;
+  position: sticky; top: 0; background: #fff; z-index: 1;
+}
+.drawer-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:17px; color:var(--blue); }
+.btn-drawer-close { background:none; border:none; font-size:24px; color:#9CA3AF; cursor:pointer; padding:4px; }
+.drawer-body { padding: 16px 20px; }
+.field { margin-bottom: 16px; }
+.field label { display:block; font-size:12px; font-weight:700; color:#6B7280; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+.field input, .field textarea {
+  width:100%; border:1.5px solid #E5E7EB; border-radius:9px;
+  padding:11px 14px; font-size:15px; font-family:'Open Sans',sans-serif; color:var(--steel);
+  transition: border-color .15s; background:#fff;
+}
+.field input:focus, .field textarea:focus { outline:none; border-color:var(--blue); }
+.field textarea { resize:vertical; min-height:72px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.drawer-actions { padding: 0 20px; display:flex; flex-direction:column; gap:10px; }
+.btn-save {
+  background: var(--green); color: #fff; border: none; border-radius: 12px;
+  padding: 15px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:15px;
+  cursor: pointer; transition: background .15s; width:100%;
+}
+.btn-save:hover { background: var(--green-hover); }
+.btn-save:disabled { background: #9CA3AF; cursor:not-allowed; }
+.btn-delete-client {
+  background: none; color: #EF4444; border: 1.5px solid #FCA5A5; border-radius: 12px;
+  padding: 13px; font-family:'Montserrat',sans-serif; font-weight:700; font-size:14px;
+  cursor: pointer; transition: all .15s; width:100%;
+}
+.btn-delete-client:hover { background:#FEF2F2; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: calc(90px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--steel); color: #fff; padding: 10px 20px; border-radius: 20px;
+  font-size: 13px; font-weight: 600; opacity: 0; pointer-events:none;
+  transition: all .25s; z-index: 500; white-space:nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Spinner ── */
+.spinner {
+  display:inline-block; width:20px; height:20px; border-radius:50%;
+  border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; animation:spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state { text-align:center; padding:60px 24px; color:#9CA3AF; }
+
+/* ── Nav link back to quote builder ── */
+.back-link {
+  display:flex; align-items:center; gap:6px;
+  padding: 14px 16px 4px;
+  font-size:12px; color:#6B7280; text-decoration:none; font-weight:600;
+}
+.back-link:hover { color: var(--blue); }
+
+@media (min-width: 640px) {
+  .content { max-width: 600px; margin: 0 auto; }
+  .client-card { margin: 0 0 8px; }
+  .search-bar { padding-left: calc((100% - 568px)/2); padding-right: calc((100% - 568px)/2); }
+  .drawer { left: 50%; right: auto; width: 100%; max-width: 480px; transform: translate(-50%, 100%); border-radius: 20px 20px 0 0; }
+  .drawer.open { transform: translate(-50%, 0); }
+}
+</style>
+</head>
+<body>
+
+<!-- App Bar -->
+<div class="app-bar">
+  <div class="app-bar-logo">
+    <svg fill="none" stroke="#fff" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+  </div>
+  <span class="app-bar-title">Πελάτες</span>
+  <span class="app-bar-count" id="clientCount"></span>
+</div>
+
+<!-- Search -->
+<div class="search-bar">
+  <div class="search-input-wrap">
+    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
+    </svg>
+    <input class="search-input" id="searchInput" type="search" placeholder="Αναζήτηση ονόματος, τηλεφώνου…" oninput="filterClients(this.value)" autocomplete="off" autocorrect="off">
+  </div>
+</div>
+
+<!-- Offline banner -->
+<div class="offline-banner" id="offlineBanner">📴 Χωρίς σύνδεση — εμφανίζονται τα αποθηκευμένα δεδομένα</div>
+
+<!-- Content -->
+<div class="content">
+  <a class="back-link" href="/index.html">← Νέα Προσφορά</a>
+  <div id="clientsList"></div>
+</div>
+
+<!-- FAB -->
+<button class="btn-add-fab" onclick="openDrawer(null)" title="Νέος πελάτης">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+  </svg>
+</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<!-- Drawer -->
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <span class="drawer-title" id="drawerTitle">Νέος Πελάτης</span>
+    <button class="btn-drawer-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-body">
+    <div class="field">
+      <label>Ονοματεπώνυμο / Επωνυμία *</label>
+      <input type="text" id="f_name" placeholder="π.χ. Γεώργιος Παπαδόπουλος" autocomplete="name">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Τηλέφωνο</label>
+        <input type="tel" id="f_phone" placeholder="69X XXX XXXX" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f_email" placeholder="email@example.com" autocomplete="email">
+      </div>
+    </div>
+    <div class="field">
+      <label>Εταιρεία</label>
+      <input type="text" id="f_company" placeholder="Επωνυμία (αν υπάρχει)">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Διεύθυνση</label>
+        <input type="text" id="f_address" placeholder="Οδός & αριθμός">
+      </div>
+      <div class="field">
+        <label>Περιοχή</label>
+        <input type="text" id="f_area" placeholder="π.χ. Αγ. Ανάργυροι">
+      </div>
+    </div>
+    <div class="field">
+      <label>ΑΦΜ</label>
+      <input type="text" id="f_vat" placeholder="123456789">
+    </div>
+    <div class="field">
+      <label>Σημειώσεις</label>
+      <textarea id="f_notes" placeholder="Οποιαδήποτε σημείωση για τον πελάτη…"></textarea>
+    </div>
+  </div>
+  <div class="drawer-actions">
+    <button class="btn-save" id="saveBtn" onclick="saveClient()">Αποθήκευση</button>
+    <button class="btn-delete-client" id="deleteBtn" onclick="deleteClient()" style="display:none;">🗑 Διαγραφή πελάτη</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://ynxcbvfhrwuenjnvsceq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlueGNidmZocnd1ZW5qbnZzY2VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MzEyNDMsImV4cCI6MjA4OTAwNzI0M30.wWWbwIEZZ9V9oRLyr_tKmh5QgPySTcKbh5s1k8hp_-w';
+const TENANT = 'solid';
+
+let allClients = [];
+let editingId = null;
+
+// ── API ──────────────────────────────────────────────────────
+const headers = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation'
+};
+
+async function fetchClients() {
+  const url = `${SUPABASE_URL}/rest/v1/clients?tenant_id=eq.${TENANT}&deleted_at=is.null&order=full_name.asc`;
+  const res = await fetch(url, { headers });
+  if (!res.ok) throw new Error('Σφάλμα φόρτωσης');
+  return res.json();
+}
+
+async function createClient(data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/clients`, {
+    method: 'POST', headers,
+    body: JSON.stringify({ ...data, tenant_id: TENANT })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Σφάλμα αποθήκευσης'); }
+  return res.json();
+}
+
+async function updateClient(id, data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/clients?id=eq.${id}`, {
+    method: 'PATCH', headers,
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Σφάλμα ενημέρωσης'); }
+  return res.json();
+}
+
+async function softDeleteClient(id) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/clients?id=eq.${id}`, {
+    method: 'PATCH', headers,
+    body: JSON.stringify({ deleted_at: new Date().toISOString() })
+  });
+  if (!res.ok) throw new Error('Σφάλμα διαγραφής');
+}
+
+// ── Init ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  // Offline detection
+  window.addEventListener('offline', () => document.getElementById('offlineBanner').classList.add('show'));
+  window.addEventListener('online',  () => document.getElementById('offlineBanner').classList.remove('show'));
+  if (!navigator.onLine) document.getElementById('offlineBanner').classList.add('show');
+
+  await loadClients();
+});
+
+async function loadClients() {
+  const list = document.getElementById('clientsList');
+  list.innerHTML = '<div class="loading-state"><div class="spinner" style="border-color:rgba(11,34,101,0.15);border-top-color:var(--blue);"></div></div>';
+  try {
+    allClients = await fetchClients();
+    // Cache for offline
+    try { localStorage.setItem('solid_clients_cache', JSON.stringify(allClients)); } catch {}
+    renderClients(allClients);
+  } catch (err) {
+    // Try offline cache
+    try {
+      const cached = JSON.parse(localStorage.getItem('solid_clients_cache') || '[]');
+      if (cached.length > 0) {
+        allClients = cached;
+        renderClients(allClients);
+        document.getElementById('offlineBanner').classList.add('show');
+        return;
+      }
+    } catch {}
+    list.innerHTML = `<div class="empty-state"><p>Σφάλμα φόρτωσης</p><small>${err.message}</small></div>`;
+  }
+}
+
+function renderClients(clients) {
+  const list = document.getElementById('clientsList');
+  const count = document.getElementById('clientCount');
+  count.textContent = clients.length ? `${clients.length} πελάτες` : '';
+
+  if (clients.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="64" height="64" style="display:block;margin:0 auto 16px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+        <p>Δεν υπάρχουν πελάτες ακόμα</p>
+        <small>Πατήστε το + για να προσθέσετε τον πρώτο</small>
+      </div>`;
+    return;
+  }
+
+  // Group alphabetically
+  const groups = {};
+  clients.forEach(c => {
+    const letter = (c.full_name || '?')[0].toUpperCase();
+    if (!groups[letter]) groups[letter] = [];
+    groups[letter].push(c);
+  });
+
+  let html = '';
+  Object.keys(groups).sort().forEach(letter => {
+    html += `<div class="section-label">${letter}</div>`;
+    groups[letter].forEach(c => {
+      const initials = c.full_name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+      const meta = [c.phone, c.area || c.address].filter(Boolean);
+      html += `
+        <div class="client-card" onclick="openDrawer('${c.id}')">
+          <div class="client-avatar" style="background:${avatarColor(c.full_name)}">${initials}</div>
+          <div class="client-info">
+            <div class="client-name">${escHtml(c.full_name)}</div>
+            <div class="client-meta">
+              ${meta.map(m => `<span>${escHtml(m)}</span>`).join('<span style="color:#E5E7EB">·</span>')}
+            </div>
+          </div>
+          <span class="client-chevron">›</span>
+        </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+// ── Fuzzy filter (client-side) ────────────────────────────────
+// Normalizes Greek diacritics, splits multi-word queries,
+// scores by trigram overlap + substring bonus.
+function filterClients(q) {
+  const raw = q.trim();
+  if (!raw) { renderClients(allClients); return; }
+
+  const tokens = normalize(raw).split(/\s+/).filter(Boolean);
+
+  const scored = allClients.map(c => {
+    const fields = [
+      c.full_name, c.phone, c.email, c.area, c.address, c.company
+    ].map(f => normalize(f || ''));
+
+    let score = 0;
+    for (const tok of tokens) {
+      let best = 0;
+      for (const field of fields) {
+        if (!field) continue;
+        // Exact substring = strong signal
+        if (field.includes(tok)) {
+          best = Math.max(best, field.startsWith(tok) ? 1.0 : 0.8);
+        }
+        // Trigram similarity for typo tolerance
+        best = Math.max(best, trigramSim(field, tok));
+      }
+      score += best;
+    }
+    // All tokens must contribute something
+    return { c, score };
+  }).filter(({ score }) => score >= tokens.length * 0.3);
+
+  scored.sort((a, b) => b.score - a.score);
+  renderClients(scored.map(s => s.c));
+}
+
+// Normalize: lowercase + strip Greek tonos/dialytika + strip Latin accents
+function normalize(s) {
+  return (s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')  // strip combining marks (accents, tonos)
+    .replace(/[άαΆΑ]/gi, 'α').replace(/[έεΈΕ]/gi, 'ε')
+    .replace(/[ήηΉΗ]/gi, 'η').replace(/[ίιΊΙϊΐ]/gi, 'ι')
+    .replace(/[όοΌΟ]/gi, 'ο').replace(/[ύυΎΥϋΰ]/gi, 'υ')
+    .replace(/[ώωΏΩ]/gi, 'ω').replace(/[σς]/gi, 'σ');
+}
+
+// Simple trigram similarity (Jaccard of character trigrams)
+function trigramSim(a, b) {
+  if (!a || !b) return 0;
+  const short = b.length < a.length ? b : a;
+  const long  = b.length < a.length ? a : b;
+  if (short.length < 2) return long.includes(short) ? 0.4 : 0;
+  const tg = s => { const t = new Set(); for (let i = 0; i < s.length - 1; i++) t.add(s.slice(i, i+2)); return t; };
+  const ta = tg(long), tb = tg(short);
+  let inter = 0;
+  tb.forEach(g => { if (ta.has(g)) inter++; });
+  return inter / (ta.size + tb.size - inter);
+}
+
+// ── Drawer ───────────────────────────────────────────────────
+function openDrawer(id) {
+  editingId = id;
+  const isNew = !id;
+  document.getElementById('drawerTitle').textContent = isNew ? 'Νέος Πελάτης' : 'Επεξεργασία Πελάτη';
+  document.getElementById('deleteBtn').style.display = isNew ? 'none' : 'block';
+
+  // Clear fields
+  ['f_name','f_phone','f_email','f_company','f_address','f_area','f_vat','f_notes'].forEach(f => {
+    document.getElementById(f).value = '';
+  });
+
+  if (!isNew) {
+    const c = allClients.find(x => x.id === id);
+    if (c) {
+      document.getElementById('f_name').value    = c.full_name || '';
+      document.getElementById('f_phone').value   = c.phone || '';
+      document.getElementById('f_email').value   = c.email || '';
+      document.getElementById('f_company').value = c.company || '';
+      document.getElementById('f_address').value = c.address || '';
+      document.getElementById('f_area').value    = c.area || '';
+      document.getElementById('f_vat').value     = c.vat_number || '';
+      document.getElementById('f_notes').value   = c.notes || '';
+    }
+  }
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  setTimeout(() => document.getElementById('f_name').focus(), 350);
+}
+
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  editingId = null;
+}
+
+async function saveClient() {
+  const name = document.getElementById('f_name').value.trim();
+  if (!name) { document.getElementById('f_name').focus(); showToast('⚠️ Συμπλήρωσε όνομα'); return; }
+
+  const data = {
+    full_name:  name,
+    phone:      document.getElementById('f_phone').value.trim() || null,
+    email:      document.getElementById('f_email').value.trim() || null,
+    company:    document.getElementById('f_company').value.trim() || null,
+    address:    document.getElementById('f_address').value.trim() || null,
+    area:       document.getElementById('f_area').value.trim() || null,
+    vat_number: document.getElementById('f_vat').value.trim() || null,
+    notes:      document.getElementById('f_notes').value.trim() || null,
+  };
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;"></div>';
+
+  try {
+    if (editingId) {
+      await updateClient(editingId, data);
+      showToast('✓ Ενημερώθηκε');
+    } else {
+      await createClient(data);
+      showToast('✓ Προστέθηκε');
+    }
+    closeDrawer();
+    await loadClients();
+  } catch (err) {
+    showToast('⚠️ ' + err.message);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Αποθήκευση';
+}
+
+async function deleteClient() {
+  if (!editingId) return;
+  const c = allClients.find(x => x.id === editingId);
+  if (!confirm(`Διαγραφή "${c?.full_name}";\nΔεν θα εμφανίζεται πλέον στη λίστα.`)) return;
+
+  try {
+    await softDeleteClient(editingId);
+    closeDrawer();
+    await loadClients();
+    showToast('Πελάτης διαγράφηκε');
+  } catch (err) {
+    showToast('⚠️ ' + err.message);
+  }
+}
+
+// ── Helpers ──────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+const AVATAR_COLORS = ['#0B2265','#1a3a8f','#2d4b99','#0d47a1','#1565c0','#0a3d62','#164880','#1e3a5f'];
+function avatarColor(name) {
+  let h = 0;
+  for (let i = 0; i < (name||'').length; i++) h = (h * 31 + name.charCodeAt(i)) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[h];
+}
+
+// Swipe down to close drawer
+let touchStartY = 0;
+document.getElementById('drawer').addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.getElementById('drawer').addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - touchStartY > 80) closeDrawer();
+}, { passive: true });
+</script>
+</body>
+</html>
