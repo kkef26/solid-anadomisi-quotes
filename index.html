@@ -360,12 +360,49 @@ nav{flex:1;padding:10px 8px;overflow-y:auto}
 .voice-btn.idle{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
 .voice-btn.recording{background:#ef4444;color:#fff;animation:pulse .8s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* Fuzzy search client picker */
+.client-search-wrap{position:relative}
+.client-search-wrap input{width:100%}
+.client-dd{position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1.5px solid var(--blue);border-top:none;border-radius:0 0 8px 8px;max-height:260px;overflow-y:auto;box-shadow:var(--shadow-lg);display:none}
+.client-dd.open{display:block}
+.client-dd-item{padding:9px 12px;cursor:pointer;border-bottom:1px solid #f3f4f6;transition:background .1s}
+.client-dd-item:hover,.client-dd-item.active{background:var(--blue-light)}
+.client-dd-item .dd-name{font-weight:700;font-size:12.5px;color:var(--steel)}
+.client-dd-item .dd-sub{font-size:10.5px;color:#9CA3AF;margin-top:1px}
+.client-dd-item .dd-match{background:#FEF3C7;padding:0 2px;border-radius:2px}
+.client-dd-new{padding:9px 12px;cursor:pointer;background:var(--green-bg);border-top:2px solid var(--green-light);font-weight:700;font-size:11.5px;color:var(--green-hover);transition:background .1s}
+.client-dd-new:hover{background:var(--green-light)}
+.phone-formatted{position:relative}
+.phone-flag{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
+.phone-formatted input{padding-left:32px!important}
+
+/* Area autocomplete */
+.area-dd{position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1.5px solid var(--blue);border-top:none;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;box-shadow:var(--shadow-lg);display:none}
+.area-dd.open{display:block}
+.area-dd-item{padding:7px 12px;cursor:pointer;font-size:12px;transition:background .1s}
+.area-dd-item:hover{background:var(--blue-light)}
 </style>
 </head>
 <body>
-<div class="loading-overlay" id="loading"><div class="spinner"></div><div style="font-family:Montserrat;font-weight:700;font-size:13px;color:var(--blue)">Φόρτωση δεδομένων...</div></div>
+<!-- Auth Gate -->
+<div id="auth-gate" style="position:fixed;inset:0;z-index:300;background:linear-gradient(135deg,#0B2265 0%,#1a3a8f 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px">
+  <div style="text-align:center">
+    <div style="width:56px;height:56px;background:#3FAE5A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><span style="font-family:Montserrat;font-weight:900;color:#fff;font-size:18px">SA</span></div>
+    <div style="font-family:Montserrat;font-weight:800;font-size:18px;color:#fff;letter-spacing:.5px">Εργοτάξια</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">Solid Anadomisi — Σύστημα Προσφορών</div>
+  </div>
+  <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:24px 28px;width:300px;backdrop-filter:blur(8px)">
+    <label style="font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px">Κωδικός Πρόσβασης</label>
+    <input type="password" id="auth-pin" inputmode="numeric" maxlength="6" placeholder="••••" style="width:100%;padding:12px 16px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-family:monospace;font-size:22px;letter-spacing:8px;text-align:center;outline:none" onkeydown="if(event.key==='Enter')authLogin()">
+    <button onclick="authLogin()" style="width:100%;margin-top:12px;padding:11px;background:#3FAE5A;color:#fff;border:none;border-radius:10px;font-family:Montserrat;font-weight:700;font-size:13px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='#2E9449'" onmouseout="this.style.background='#3FAE5A'">Είσοδος</button>
+    <div id="auth-error" style="color:#EF4444;font-size:11px;text-align:center;margin-top:8px;min-height:16px"></div>
+  </div>
+</div>
 
-<div class="app">
+<div class="loading-overlay hidden" id="loading"><div class="spinner"></div><div style="font-family:Montserrat;font-weight:700;font-size:13px;color:var(--blue)">Φόρτωση δεδομένων...</div></div>
+
+<div class="app" style="display:none" id="main-app">
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-brand">
       <div class="logo">
@@ -496,6 +533,136 @@ const LAMBDA='https://6m579m9vg1.execute-api.eu-west-1.amazonaws.com/pdf';
 const CATS={painting:'Ελαιοχρωματισμοί',repairs:'Επισκευές',plastering:'Σοβαδίσματα',insulation:'Μόνωση',scaffolding:'Σκαλωσιά',flooring:'Δάπεδα / Πλακίδια',doors_windows:'Κουφώματα / Πόρτες',renovation:'Ανακαίνιση',carpentry:'Ξυλουργικά',plumbing:'Υδραυλικά',electrical:'Ηλεκτρολογικά',roofing:'Στέγη',thermal_facade:'Θερμοπρόσωψη (ETICS)',waterproofing:'Στεγανοποίηση',anti_crack:'Αντιρρηξιογόνο',balconies:'Μπαλκόνια',railings:'Κάγκελα',aluminum:'Αλουμίνιο / PVC'};
 const UNITS=['εφαπ.','τμ','τρεχ.μ.','τεμ.','ώρα','ημέρα','κιλό','λίτρο'];
 
+// ─── Greek Areas (Athens metro + major cities) ────────────
+const GREEK_AREAS=['Αγία Βαρβάρα','Αγία Παρασκευή','Αγίοι Ανάργυροι','Αθήνα','Αιγάλεω','Αλιμος','Αμαρούσιο','Αργυρούπολη','Βάρη','Βούλα','Βουλιαγμένη','Βριλήσσια','Βύρωνας','Γαλάτσι','Γλυφάδα','Δάφνη','Δραπετσώνα','Ελευσίνα','Ελληνικό','Ζωγράφου','Ηλιούπολη','Ηράκλειο','Θεσσαλονίκη','Ίλιον','Καισαριανή','Καλλιθέα','Καματερό','Κερατσίνι','Κηφισιά','Κορυδαλλός','Λαυρεωτική','Λυκόβρυση','Μαρούσι','Μελίσσια','Μεταμόρφωση','Μοσχάτο','Νέα Ερυθραία','Νέα Ιωνία','Νέα Σμύρνη','Νέα Φιλαδέλφεια','Νίκαια','Παγκράτι','Παλαιό Φάληρο','Παπάγου','Πειραιάς','Πεντέλη','Περιστέρι','Πετρούπολη','Πεύκη','Ρέντης','Ταύρος','Υμηττός','Φάληρο','Φιλοθέη','Χαϊδάρι','Χαλάνδρι','Χολαργός','Ψυχικό','Αχαρνές','Σπάτα','Ραφήνα','Πικέρμι','Μαραθώνας','Σαρωνίδα','Ανάβυσσος','Κερατέα','Λαύριο','Μέγαρα','Ασπρόπυργος','Μάνδρα','Παιανία','Κορωπί','Μαρκόπουλο','Γέρακας','Ανθούσα','Παλλήνη','Πατήσια','Κάτω Πατήσια','Κυψέλη','Εξάρχεια','Κολωνάκι','Πλάκα','Μοναστηράκι','Θησείο','Κουκάκι','Πετράλωνα','Νέος Κόσμος','Αμπελόκηποι','Γκύζη','Πολύγωνο','Σεπόλια','Κολωνός','Ακαδημία Πλάτωνος','Ρουφ','Μετς','Πιάτσα','Κρήτη','Ρόδος','Κέρκυρα','Πάτρα','Λάρισα','Βόλος','Ιωάννινα','Καβάλα','Χανιά','Ηράκλειο Κρήτης'];
+
+// ─── Phone formatting ─────────────────────────────────────
+function formatGreekPhone(raw){
+  const d=raw.replace(/[^\d+]/g,'');
+  let n=d.startsWith('+30')?d.slice(3):d.startsWith('0030')?d.slice(4):d;
+  if(n.startsWith('0')&&n.length>1)n=n.slice(1); // strip leading 0
+  if(!n)return '';
+  // Mobile: 69x xxx xxxx
+  if(/^69\d{8}$/.test(n))return `+30 ${n.slice(0,3)} ${n.slice(3,6)} ${n.slice(6)}`;
+  // Landline Athens (21x): 21x xxx xxxx
+  if(/^21\d{8}$/.test(n))return `+30 ${n.slice(0,3)} ${n.slice(3,6)} ${n.slice(6)}`;
+  // Other landline (2xx): 2xx xxx xxxx
+  if(/^2\d{9}$/.test(n))return `+30 ${n.slice(0,4)} ${n.slice(4,7)} ${n.slice(7)}`;
+  // Partial — return with +30 if long enough
+  if(n.length>=6)return `+30 ${n}`;
+  return n;
+}
+function stripPhone(v){return v.replace(/[^\d]/g,'');}
+
+// ─── Fuzzy search ─────────────────────────────────────────
+function fuzzyMatch(query,text){
+  if(!query||!text)return false;
+  const q=query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const t=text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  return t.includes(q);
+}
+function searchClients(query){
+  if(!query||query.length<1)return [];
+  return S.clients.filter(cl=>{
+    return fuzzyMatch(query,cl.full_name)||fuzzyMatch(query,cl.company)||fuzzyMatch(query,cl.phone)||fuzzyMatch(query,cl.email)||fuzzyMatch(query,cl.vat_number);
+  }).slice(0,15);
+}
+
+// ─── Client picker state ──────────────────────────────────
+let clientDDOpen=false,clientDDIdx=-1,selectedClientId=null;
+
+function onClientInput(e){
+  const q=e.target.value.trim();
+  const results=searchClients(q);
+  const dd=document.getElementById('client-dd');
+  if(!dd)return;
+  if(!q||!results.length){
+    dd.classList.remove('open');dd.innerHTML='';clientDDOpen=false;clientDDIdx=-1;return;
+  }
+  clientDDIdx=-1;clientDDOpen=true;
+  dd.innerHTML=results.map((cl,i)=>`<div class="client-dd-item" data-idx="${i}" onclick="selectClient('${cl.id}')" onmouseenter="clientDDIdx=${i}">
+    <div class="dd-name">${esc(cl.full_name)}${cl.company?' <span style=\"color:#9CA3AF\">· '+esc(cl.company)+'</span>':''}</div>
+    <div class="dd-sub">${[cl.phone,cl.email,cl.area].filter(Boolean).join(' · ')}</div>
+  </div>`).join('')+`<div class="client-dd-new" onclick="clearClientSelection()">+ Νέος πελάτης: "${esc(q)}"</div>`;
+  dd.classList.add('open');
+}
+
+function onClientKeydown(e){
+  const dd=document.getElementById('client-dd');
+  if(!dd||!clientDDOpen)return;
+  const items=dd.querySelectorAll('.client-dd-item');
+  if(e.key==='ArrowDown'){e.preventDefault();clientDDIdx=Math.min(clientDDIdx+1,items.length-1);highlightDDItem(items)}
+  else if(e.key==='ArrowUp'){e.preventDefault();clientDDIdx=Math.max(clientDDIdx-1,0);highlightDDItem(items)}
+  else if(e.key==='Enter'&&clientDDIdx>=0){e.preventDefault();items[clientDDIdx]?.click()}
+  else if(e.key==='Escape'){dd.classList.remove('open');clientDDOpen=false}
+}
+function highlightDDItem(items){items.forEach((el,i)=>{el.classList.toggle('active',i===clientDDIdx)})}
+
+function selectClient(id){
+  const cl=S.clients.find(c=>c.id===id);
+  if(!cl)return;
+  selectedClientId=id;
+  const g=i=>document.getElementById(i);
+  if(g('b-name'))g('b-name').value=cl.full_name||'';
+  if(g('b-company'))g('b-company').value=cl.company||'';
+  if(g('b-phone'))g('b-phone').value=cl.phone?formatGreekPhone(cl.phone):('');
+  if(g('b-email'))g('b-email').value=cl.email||'';
+  if(g('b-addr'))g('b-addr').value=cl.address||'';
+  if(g('b-area'))g('b-area').value=cl.area||cl.city||'';
+  if(g('b-afm'))g('b-afm').value=cl.vat_number||'';
+  const dd=document.getElementById('client-dd');
+  if(dd){dd.classList.remove('open');clientDDOpen=false;}
+}
+function clearClientSelection(){
+  selectedClientId=null;
+  const dd=document.getElementById('client-dd');
+  if(dd){dd.classList.remove('open');clientDDOpen=false;}
+}
+
+// ─── Area autocomplete ────────────────────────────────────
+function onAreaInput(e){
+  const q=e.target.value.trim();
+  const dd=document.getElementById('area-dd');
+  if(!dd)return;
+  if(!q||q.length<1){dd.classList.remove('open');dd.innerHTML='';return}
+  const matches=GREEK_AREAS.filter(a=>fuzzyMatch(q,a)).slice(0,10);
+  if(!matches.length){dd.classList.remove('open');dd.innerHTML='';return}
+  dd.innerHTML=matches.map(a=>`<div class="area-dd-item" onclick="document.getElementById('b-area').value='${esc(a)}';document.getElementById('area-dd').classList.remove('open')">${esc(a)}</div>`).join('');
+  dd.classList.add('open');
+}
+
+// ─── Phone blur format ────────────────────────────────────
+function onPhoneBlur(e){
+  const v=e.target.value.trim();
+  if(v)e.target.value=formatGreekPhone(v);
+}
+
+// ─── Smart doc numbering ──────────────────────────────────
+const DOC_TYPE_PREFIX={quote:'Π',proforma:'ΠΤ',invoice:'Τ'};
+async function getNextDocNumber(type){
+  const prefix=DOC_TYPE_PREFIX[type]||'Π';
+  const now=new Date();
+  const y=now.getFullYear();
+  const m=String(now.getMonth()+1).padStart(2,'0');
+  const pat=`${prefix}-${y}-${m}-%`;
+  // Query max existing number for this prefix+month
+  const {data}=await sb.from('quotes').select('quote_number').ilike('quote_number',pat).order('quote_number',{ascending:false}).limit(1);
+  let seq=1;
+  if(data&&data.length){
+    const last=data[0].quote_number;
+    const parts=last.split('-');
+    const lastSeq=parseInt(parts[parts.length-1],10);
+    if(!isNaN(lastSeq))seq=lastSeq+1;
+  }
+  return `${prefix}-${y}-${m}-${String(seq).padStart(3,'0')}`;
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.client-search-wrap')){const dd=document.getElementById('client-dd');if(dd){dd.classList.remove('open');clientDDOpen=false}}
+  if(!e.target.closest('.area-wrap')){const dd=document.getElementById('area-dd');if(dd)dd.classList.remove('open')}
+});
+
 const ADMIN_PIN='1234';
 let S={
   page:'dashboard',quotes:[],clients:[],files:[],catPricing:[],singlePricing:[],stats:{},parsed:{},
@@ -532,8 +699,8 @@ function getVatAmt(q){
   if(!q.vat_included)return 0;
   return Number(q.total||0)-getNetAmt(q);
 }
-function statusLabel(s){return s==='accepted'?'Αποδεκτή':s==='rejected'?'Απορρίφθηκε':s==='pending'?'Εκκρεμεί':s==='invoiced'?'Τιμολογήθηκε':'Εστάλη'}
-function statusClass(s){return s==='accepted'?'b-green':s==='rejected'?'b-red':s==='pending'?'b-amber':s==='invoiced'?'b-blue':'b-gray'}
+function statusLabel(s){const m={'accepted':'Αποδεκτή','rejected':'Απορρίφθηκε','pending':'Εκκρεμεί','invoiced':'Τιμολογήθηκε','sent':'Εστάλη','draft':'Πρόχειρο','active':'Ενεργή','completed':'Ολοκληρώθηκε','imported':'Εισαγωγή','offer_sent':'Εστάλη','collaborator':'Συνεργάτης'};return m[s]||s}
+function statusClass(s){const m={'accepted':'b-green','rejected':'b-red','pending':'b-amber','invoiced':'b-blue','sent':'b-gray','draft':'b-amber','active':'b-green','completed':'b-blue','imported':'b-gray','offer_sent':'b-gray','collaborator':'b-blue'};return m[s]||'b-gray'}
 function fileIcon(t){if(!t)return '📄';if(t.includes('doc'))return '📝';if(t.includes('pdf'))return '📕';if(t.includes('xls'))return '📊';if(t.includes('jpg')||t.includes('png'))return '🖼️';if(t.includes('msg'))return '✉️';if(t.includes('dwg')||t.includes('dxf'))return '📐';return '📄'}
 
 // Get parsed data for a quote
@@ -557,7 +724,7 @@ async function loadData(){
   try{
     const [qr,cr,fr,cpr,spr,parsedRes,lr,jr,wr]=await Promise.all([
       sb.from('quotes').select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').order('date_issued',{ascending:false}).limit(600),
-      sb.from('clients').select('id,full_name,company,phone,email,city,area,total_quoted,total_paid,project_count').order('total_quoted',{ascending:false}),
+      sb.from('clients').select('id,full_name,company,phone,email,city,area,address,vat_number,total_quoted,total_paid,project_count').order('total_quoted',{ascending:false}),
       sb.from('ergo_project_files').select('id,filename,file_type,file_size_bytes,quote_id,client_id,created_at').order('created_at',{ascending:false}).limit(500),
       sb.from('ergo_category_pricing').select('*').order('sample_count',{ascending:false}),
       sb.from('ergo_single_category_pricing').select('*').order('appears_in_quotes',{ascending:false}),
@@ -1553,18 +1720,19 @@ function renderBuilder(t,c){
   if(S.builderStep===0){renderBuilderStep0(t,c);return;}
   setTopbar(`<h2>Νέα Προσφορά</h2>`,`<div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="S.builderStep=0;render()">← Κατηγορίες</button><button class="btn btn-secondary" onclick="go('quotes')">✕ Ακύρωση</button></div>`);
   const b=S.builder;
-  if(!b.items.length){b.items=[{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0},{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0},{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0}]}
+  if(!b.items.length){b.items=[{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0}]}
   const now=new Date();const valid=new Date(now);valid.setDate(valid.getDate()+30);
-  const defNum=`Π-${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-001`;
+  const defNum=b._cachedNum||`Π-${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-...`;
+  if(!b._numLoaded){b._numLoaded=true;getNextDocNumber(b.docType).then(n=>{b._cachedNum=n;const el=document.getElementById('b-num');if(el&&(el.value.endsWith('...')||el.value===defNum))el.value=n})}
 
   c.innerHTML=`
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">1</div><h3>Τύπος Εγγράφου</h3></div><div class="card-body">
       <div class="grid-2" style="align-items:end">
         <div class="field"><label>Είδος</label>
           <div class="type-pills">
-            <button class="type-pill ${b.docType==='quote'?'active':''}" onclick="S.builder.docType='quote';render()">Προσφορά</button>
-            <button class="type-pill ${b.docType==='proforma'?'active':''}" onclick="S.builder.docType='proforma';render()">Προτιμολόγιο</button>
-            <button class="type-pill ${b.docType==='invoice'?'active':''}" onclick="S.builder.docType='invoice';render()">Τιμολόγιο</button>
+            <button class="type-pill ${b.docType==='quote'?'active':''}" onclick="S.builder.docType='quote';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Προσφορά</button>
+            <button class="type-pill ${b.docType==='proforma'?'active':''}" onclick="S.builder.docType='proforma';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Προτιμολόγιο</button>
+            <button class="type-pill ${b.docType==='invoice'?'active':''}" onclick="S.builder.docType='invoice';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Τιμολόγιο</button>
           </div>
         </div>
         <div class="grid-2">
@@ -1576,15 +1744,14 @@ function renderBuilder(t,c){
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">2</div><h3>Στοιχεία Πελάτη</h3></div><div class="card-body">
       <div class="grid-2">
-        <div class="field"><label>Ονοματεπώνυμο / Επωνυμία *</label><input type="text" id="b-name" list="cl-list" placeholder="π.χ. Γεώργιος Παπαδόπουλος"></div>
+        <div class="field client-search-wrap"><label>Ονοματεπώνυμο / Επωνυμία *</label><input type="text" id="b-name" autocomplete="off" placeholder="Αναζήτηση πελάτη..." oninput="onClientInput(event)" onkeydown="onClientKeydown(event)">${selectedClientId?`<div style="font-size:10px;color:var(--green-hover);margin-top:2px">✓ ${esc(S.clients.find(c=>c.id===selectedClientId)?.full_name||'')}</div>`:''}<div id="client-dd" class="client-dd"></div></div>
         <div class="field"><label>Εταιρεία</label><input type="text" id="b-company" placeholder="Επωνυμία εταιρείας"></div>
-        <div class="field"><label>Τηλέφωνο</label><input type="tel" id="b-phone" placeholder="69X XXX XXXX"></div>
+        <div class="field phone-formatted"><label>Τηλέφωνο</label><span class="phone-flag">🇬🇷</span><input type="tel" id="b-phone" placeholder="+30 69X XXX XXXX" onblur="onPhoneBlur(event)"></div>
         <div class="field"><label>Email</label><input type="email" id="b-email" placeholder="email@example.com"></div>
         <div class="field"><label>Διεύθυνση</label><input type="text" id="b-addr" placeholder="Οδός & αριθμός"></div>
-        <div class="field"><label>Περιοχή</label><input type="text" id="b-area" placeholder="π.χ. Κάτω Πατήσια, Αθήνα"></div>
-        <div class="field"><label>ΑΦΜ</label><input type="text" id="b-afm" placeholder="123456789"></div>
+        <div class="field area-wrap" style="position:relative"><label>Περιοχή</label><input type="text" id="b-area" autocomplete="off" placeholder="π.χ. Κάτω Πατήσια, Αθήνα" oninput="onAreaInput(event)"><div id="area-dd" class="area-dd"></div></div>
+        <div class="field"><label>ΑΦΜ</label><input type="text" id="b-afm" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" inputmode="numeric"></div>
       </div>
-      <datalist id="cl-list">${S.clients.slice(0,100).map(cl=>`<option value="${esc(cl.full_name)}">`).join('')}</datalist>
     </div></div>
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">3</div><h3>Στοιχεία Έργου</h3></div><div class="card-body">
@@ -1597,7 +1764,7 @@ function renderBuilder(t,c){
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">4</div><h3>Εργασίες & Κόστη</h3></div><div class="card-body">
       <div class="ai-input-box">
-        <div class="ai-input-label"><span>🤖</span> AI Ανάλυση Κειμένου / Φωνής</div>
+        <div class="ai-input-label"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M12 2L9 9l-7 2 5 5-1 7 6-3 6 3-1-7 5-5-7-2z"/></svg></span> AI Ανάλυση Κειμένου / Φωνής</div>
         <textarea id="ai-text-input" class="ai-textarea" placeholder="Περιγράψτε τις εργασίες φυσικά&#10;π.χ. «Σοβαδίσματα εξωτερικού τοίχου 120τμ, θερμοπρόσωψη ETICS 80τμ, βαψίματα 3 δωμάτια»"></textarea>
         <span id="ai-interim" style="font-size:11px;color:#9CA3AF;font-style:italic;display:block;min-height:14px;margin-top:3px"></span>
         <div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
@@ -1717,7 +1884,7 @@ async function genPDF(){
     const payMode=document.getElementById('b-pay')?.value||'30-60-10';
     const payTermsMap={'30-60-10':'30% προκαταβολή, 60% κατά τη διάρκεια, 10% ολοκλήρωση','50-50':'50% προκαταβολή, 50% ολοκλήρωση','30-70':'30% προκαταβολή, 70% ολοκλήρωση','100':'100% εφάπαξ'};
     const detectedCats=[...new Set(filled.map(i=>NLP_KEYWORDS.find(k=>k.re.test(i.desc))?.cat).filter(Boolean))];
-    const qrow={quote_number:payload.quote.quote_number,entity:'SOLID ANADOMISI EE',status:'sent',subtotal:after2,vat_pct:vat2,vat_amount:vatAmt2,total:tot2,vat_included:false,notes:payload.quote.notes||null,date_issued:payload.quote.created_at,property_address:payload.job.address||payload.job.title||null,payment_terms:payTermsMap[payMode]||payMode,work_categories:detectedCats,source_file:url};
+    const qrow={quote_number:payload.quote.quote_number,entity:'SOLID ANADOMISI EE',status:'sent',subtotal:after2,vat_pct:vat2,vat_amount:vatAmt2,total:tot2,vat_included:false,notes:payload.quote.notes||null,date_issued:payload.quote.created_at,property_address:payload.job.address||payload.job.title||null,payment_terms:payTermsMap[payMode]||payMode,work_categories:detectedCats,source_file:url,client_id:selectedClientId||null};
     const {data:qSaved,error:qErr}=await sb.from('quotes').insert(qrow).select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').single();
     if(qErr){console.warn('Supabase quote save failed:',qErr.message)}
     else{
@@ -2117,10 +2284,29 @@ function showNewWorkerModal(){
   `);
 }
 
-// ─── Boot ──────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
+// ─── Auth ──────────────────────────────────────────────────
+const AUTH_PINS=['1234','2024','5678']; // Office PINs — will move to Supabase later
+function authLogin(){
+  const pin=document.getElementById('auth-pin').value.trim();
+  if(!pin){document.getElementById('auth-error').textContent='Εισάγετε κωδικό';return}
+  if(!AUTH_PINS.includes(pin)){document.getElementById('auth-error').textContent='Λάθος κωδικός';document.getElementById('auth-pin').value='';return}
+  sessionStorage.setItem('sa_auth','1');
+  bootApp();
+}
+function bootApp(){
+  document.getElementById('auth-gate').style.display='none';
+  document.getElementById('main-app').style.display='';
+  document.getElementById('loading').classList.remove('hidden');
   document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
   loadData().then(()=>go('dashboard'));
+}
+
+// ─── Boot ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  // If already authed this session, skip login
+  if(sessionStorage.getItem('sa_auth')==='1'){bootApp();return}
+  // Otherwise show auth gate, focus PIN input
+  document.getElementById('auth-pin').focus();
 });
 </script>
 </body>
