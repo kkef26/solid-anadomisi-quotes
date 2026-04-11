@@ -337,72 +337,12 @@ nav{flex:1;padding:10px 8px;overflow-y:auto}
 .mobile-bar{display:none}
 .mobile-bottom-nav{display:none}
 .mobile-overlay{display:none}
-
-/* Admin mode badge */
-.admin-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700;background:rgba(239,68,68,.18);color:#fca5a5;letter-spacing:.4px;text-transform:uppercase}
-.admin-badge.on{background:rgba(63,174,90,.2);color:#6ee68a}
-
-/* Category picker (builder step 0) */
-.cat-pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.cat-pick-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:13px 8px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;background:#fff;text-align:center;font-size:11.5px;font-weight:700;color:#6B7280;line-height:1.3}
-.cat-pick-item:hover{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
-.cat-pick-item.selected{border-color:var(--green);background:var(--green-bg);color:var(--green-hover)}
-.cat-pick-item svg{width:22px;height:22px;flex-shrink:0}
-@media(max-width:768px){.cat-pick-grid{grid-template-columns:repeat(2,1fr);gap:6px}}
-
-/* AI Voice input */
-.ai-input-box{background:linear-gradient(135deg,#f0f4ff 0%,#f0faf3 100%);border:2px solid #c5d0e8;border-radius:12px;padding:14px 16px;margin-bottom:14px}
-.ai-input-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:7px}
-.ai-input-label span{font-size:17px}
-.ai-textarea{width:100%;min-height:80px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;font-family:'Open Sans',sans-serif;resize:vertical;background:#fff;transition:border-color .13s}
-.ai-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,34,101,.08)}
-.voice-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-size:11.5px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .15s}
-.voice-btn.idle{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
-.voice-btn.recording{background:#ef4444;color:#fff;animation:pulse .8s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-
-/* Fuzzy search client picker */
-.client-search-wrap{position:relative}
-.client-search-wrap input{width:100%}
-.client-dd{position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1.5px solid var(--blue);border-top:none;border-radius:0 0 8px 8px;max-height:260px;overflow-y:auto;box-shadow:var(--shadow-lg);display:none}
-.client-dd.open{display:block}
-.client-dd-item{padding:9px 12px;cursor:pointer;border-bottom:1px solid #f3f4f6;transition:background .1s}
-.client-dd-item:hover,.client-dd-item.active{background:var(--blue-light)}
-.client-dd-item .dd-name{font-weight:700;font-size:12.5px;color:var(--steel)}
-.client-dd-item .dd-sub{font-size:10.5px;color:#9CA3AF;margin-top:1px}
-.client-dd-item .dd-match{background:#FEF3C7;padding:0 2px;border-radius:2px}
-.client-dd-new{padding:9px 12px;cursor:pointer;background:var(--green-bg);border-top:2px solid var(--green-light);font-weight:700;font-size:11.5px;color:var(--green-hover);transition:background .1s}
-.client-dd-new:hover{background:var(--green-light)}
-.phone-formatted{position:relative}
-.phone-flag{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
-.phone-formatted input{padding-left:32px!important}
-
-/* Area autocomplete */
-.area-dd{position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1.5px solid var(--blue);border-top:none;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;box-shadow:var(--shadow-lg);display:none}
-.area-dd.open{display:block}
-.area-dd-item{padding:7px 12px;cursor:pointer;font-size:12px;transition:background .1s}
-.area-dd-item:hover{background:var(--blue-light)}
 </style>
 </head>
 <body>
-<!-- Auth Gate -->
-<div id="auth-gate" style="position:fixed;inset:0;z-index:300;background:linear-gradient(135deg,#0B2265 0%,#1a3a8f 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px">
-  <div style="text-align:center">
-    <div style="width:56px;height:56px;background:#3FAE5A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><span style="font-family:Montserrat;font-weight:900;color:#fff;font-size:18px">SA</span></div>
-    <div style="font-family:Montserrat;font-weight:800;font-size:18px;color:#fff;letter-spacing:.5px">Εργοτάξια</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">Solid Anadomisi — Σύστημα Προσφορών</div>
-  </div>
-  <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:24px 28px;width:300px;backdrop-filter:blur(8px)">
-    <label style="font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px">Κωδικός Πρόσβασης</label>
-    <input type="password" id="auth-pin" inputmode="numeric" maxlength="6" placeholder="••••" style="width:100%;padding:12px 16px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-family:monospace;font-size:22px;letter-spacing:8px;text-align:center;outline:none" onkeydown="if(event.key==='Enter')authLogin()">
-    <button onclick="authLogin()" style="width:100%;margin-top:12px;padding:11px;background:#3FAE5A;color:#fff;border:none;border-radius:10px;font-family:Montserrat;font-weight:700;font-size:13px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='#2E9449'" onmouseout="this.style.background='#3FAE5A'">Είσοδος</button>
-    <div id="auth-error" style="color:#EF4444;font-size:11px;text-align:center;margin-top:8px;min-height:16px"></div>
-  </div>
-</div>
+<div class="loading-overlay" id="loading"><div class="spinner"></div><div style="font-family:Montserrat;font-weight:700;font-size:13px;color:var(--blue)">Φόρτωση δεδομένων...</div></div>
 
-<div class="loading-overlay hidden" id="loading"><div class="spinner"></div><div style="font-family:Montserrat;font-weight:700;font-size:13px;color:var(--blue)">Φόρτωση δεδομένων...</div></div>
-
-<div class="app" style="display:none" id="main-app">
+<div class="app">
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-brand">
       <div class="logo">
@@ -436,23 +376,6 @@ nav{flex:1;padding:10px 8px;overflow-y:auto}
         <span class="nav-badge" id="badge-cl">—</span>
       </button>
 
-      <div class="nav-section">Επιχειρησιακά</div>
-      <button class="nav-link" data-page="leads" onclick="go('leads')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-        Leads
-        <span class="nav-badge" id="badge-leads">—</span>
-      </button>
-      <button class="nav-link" data-page="jobs" onclick="go('jobs')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        Έργα
-        <span class="nav-badge" id="badge-jobs">—</span>
-      </button>
-      <button class="nav-link" data-page="workers" onclick="go('workers')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-        Εργάτες
-        <span class="nav-badge" id="badge-workers">—</span>
-      </button>
-
       <div class="nav-section">Αρχείο & Ανάλυση</div>
       <button class="nav-link" data-page="archive" onclick="go('archive')">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
@@ -472,12 +395,7 @@ nav{flex:1;padding:10px 8px;overflow-y:auto}
         Αναλυτικά
       </button>
     </nav>
-    <div class="sidebar-footer" style="flex-direction:column;align-items:flex-start;gap:6px">
-      <div style="display:flex;align-items:center;gap:6px"><div class="dot"></div>Supabase · <span id="last-refresh">—</span></div>
-      <button onclick="showAdminModal()" style="background:none;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 8px;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;gap:6px">
-        <span id="admin-badge" class="admin-badge">🔒 User</span>
-      </button>
-    </div>
+    <div class="sidebar-footer"><div class="dot"></div>Supabase · <span id="last-refresh">—</span></div>
   </aside>
 
   <div id="mobile-overlay" class="mobile-overlay" onclick="closeSidebar()"></div>
@@ -530,152 +448,43 @@ const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const sb=supabase.createClient(SB_URL,SB_KEY);
 const LAMBDA='https://6m579m9vg1.execute-api.eu-west-1.amazonaws.com/pdf';
 
-const CATS={painting:'Ελαιοχρωματισμοί',repairs:'Επισκευές',plastering:'Σοβαδίσματα',insulation:'Μόνωση',scaffolding:'Σκαλωσιά',flooring:'Δάπεδα / Πλακίδια',doors_windows:'Κουφώματα / Πόρτες',renovation:'Ανακαίνιση',carpentry:'Ξυλουργικά',plumbing:'Υδραυλικά',electrical:'Ηλεκτρολογικά',roofing:'Στέγη',thermal_facade:'Θερμοπρόσωψη (ETICS)',waterproofing:'Στεγανοποίηση',anti_crack:'Αντιρρηξιογόνο',balconies:'Μπαλκόνια',railings:'Κάγκελα',aluminum:'Αλουμίνιο / PVC'};
+const CATS={painting:'Ελαιοχρωματισμοί',repairs:'Επισκευές',plastering:'Σοβαδίσματα',insulation:'Μόνωση',scaffolding:'Σκαλωσιά',flooring:'Δάπεδα / Πλακίδια',doors_windows:'Κουφώματα / Πόρτες',renovation:'Ανακαίνιση',carpentry:'Ξυλουργικά',plumbing:'Υδραυλικά',electrical:'Ηλεκτρολογικά',roofing:'Στέγη'};
 const UNITS=['εφαπ.','τμ','τρεχ.μ.','τεμ.','ώρα','ημέρα','κιλό','λίτρο'];
 
-// ─── Greek Areas (Athens metro + major cities) ────────────
-const GREEK_AREAS=['Αγία Βαρβάρα','Αγία Παρασκευή','Αγίοι Ανάργυροι','Αθήνα','Αιγάλεω','Αλιμος','Αμαρούσιο','Αργυρούπολη','Βάρη','Βούλα','Βουλιαγμένη','Βριλήσσια','Βύρωνας','Γαλάτσι','Γλυφάδα','Δάφνη','Δραπετσώνα','Ελευσίνα','Ελληνικό','Ζωγράφου','Ηλιούπολη','Ηράκλειο','Θεσσαλονίκη','Ίλιον','Καισαριανή','Καλλιθέα','Καματερό','Κερατσίνι','Κηφισιά','Κορυδαλλός','Λαυρεωτική','Λυκόβρυση','Μαρούσι','Μελίσσια','Μεταμόρφωση','Μοσχάτο','Νέα Ερυθραία','Νέα Ιωνία','Νέα Σμύρνη','Νέα Φιλαδέλφεια','Νίκαια','Παγκράτι','Παλαιό Φάληρο','Παπάγου','Πειραιάς','Πεντέλη','Περιστέρι','Πετρούπολη','Πεύκη','Ρέντης','Ταύρος','Υμηττός','Φάληρο','Φιλοθέη','Χαϊδάρι','Χαλάνδρι','Χολαργός','Ψυχικό','Αχαρνές','Σπάτα','Ραφήνα','Πικέρμι','Μαραθώνας','Σαρωνίδα','Ανάβυσσος','Κερατέα','Λαύριο','Μέγαρα','Ασπρόπυργος','Μάνδρα','Παιανία','Κορωπί','Μαρκόπουλο','Γέρακας','Ανθούσα','Παλλήνη','Πατήσια','Κάτω Πατήσια','Κυψέλη','Εξάρχεια','Κολωνάκι','Πλάκα','Μοναστηράκι','Θησείο','Κουκάκι','Πετράλωνα','Νέος Κόσμος','Αμπελόκηποι','Γκύζη','Πολύγωνο','Σεπόλια','Κολωνός','Ακαδημία Πλάτωνος','Ρουφ','Μετς','Πιάτσα','Κρήτη','Ρόδος','Κέρκυρα','Πάτρα','Λάρισα','Βόλος','Ιωάννινα','Καβάλα','Χανιά','Ηράκλειο Κρήτης'];
-
-// ─── Phone formatting ─────────────────────────────────────
-function formatGreekPhone(raw){
-  const d=raw.replace(/[^\d+]/g,'');
-  let n=d.startsWith('+30')?d.slice(3):d.startsWith('0030')?d.slice(4):d;
-  if(n.startsWith('0')&&n.length>1)n=n.slice(1); // strip leading 0
-  if(!n)return '';
-  // Mobile: 69x xxx xxxx
-  if(/^69\d{8}$/.test(n))return `+30 ${n.slice(0,3)} ${n.slice(3,6)} ${n.slice(6)}`;
-  // Landline Athens (21x): 21x xxx xxxx
-  if(/^21\d{8}$/.test(n))return `+30 ${n.slice(0,3)} ${n.slice(3,6)} ${n.slice(6)}`;
-  // Other landline (2xx): 2xx xxx xxxx
-  if(/^2\d{9}$/.test(n))return `+30 ${n.slice(0,4)} ${n.slice(4,7)} ${n.slice(7)}`;
-  // Partial — return with +30 if long enough
-  if(n.length>=6)return `+30 ${n}`;
-  return n;
-}
-function stripPhone(v){return v.replace(/[^\d]/g,'');}
-
-// ─── Fuzzy search ─────────────────────────────────────────
-function fuzzyMatch(query,text){
-  if(!query||!text)return false;
-  const q=query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const t=text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  return t.includes(q);
-}
-function searchClients(query){
-  if(!query||query.length<1)return [];
-  return S.clients.filter(cl=>{
-    return fuzzyMatch(query,cl.full_name)||fuzzyMatch(query,cl.company)||fuzzyMatch(query,cl.phone)||fuzzyMatch(query,cl.email)||fuzzyMatch(query,cl.vat_number);
-  }).slice(0,15);
-}
-
-// ─── Client picker state ──────────────────────────────────
-let clientDDOpen=false,clientDDIdx=-1,selectedClientId=null;
-
-function onClientInput(e){
-  const q=e.target.value.trim();
-  const results=searchClients(q);
-  const dd=document.getElementById('client-dd');
-  if(!dd)return;
-  if(!q||!results.length){
-    dd.classList.remove('open');dd.innerHTML='';clientDDOpen=false;clientDDIdx=-1;return;
-  }
-  clientDDIdx=-1;clientDDOpen=true;
-  dd.innerHTML=results.map((cl,i)=>`<div class="client-dd-item" data-idx="${i}" onclick="selectClient('${cl.id}')" onmouseenter="clientDDIdx=${i}">
-    <div class="dd-name">${esc(cl.full_name)}${cl.company?' <span style=\"color:#9CA3AF\">· '+esc(cl.company)+'</span>':''}</div>
-    <div class="dd-sub">${[cl.phone,cl.email,cl.area].filter(Boolean).join(' · ')}</div>
-  </div>`).join('')+`<div class="client-dd-new" onclick="clearClientSelection()">+ Νέος πελάτης: "${esc(q)}"</div>`;
-  dd.classList.add('open');
-}
-
-function onClientKeydown(e){
-  const dd=document.getElementById('client-dd');
-  if(!dd||!clientDDOpen)return;
-  const items=dd.querySelectorAll('.client-dd-item');
-  if(e.key==='ArrowDown'){e.preventDefault();clientDDIdx=Math.min(clientDDIdx+1,items.length-1);highlightDDItem(items)}
-  else if(e.key==='ArrowUp'){e.preventDefault();clientDDIdx=Math.max(clientDDIdx-1,0);highlightDDItem(items)}
-  else if(e.key==='Enter'&&clientDDIdx>=0){e.preventDefault();items[clientDDIdx]?.click()}
-  else if(e.key==='Escape'){dd.classList.remove('open');clientDDOpen=false}
-}
-function highlightDDItem(items){items.forEach((el,i)=>{el.classList.toggle('active',i===clientDDIdx)})}
-
-function selectClient(id){
-  const cl=S.clients.find(c=>c.id===id);
-  if(!cl)return;
-  selectedClientId=id;
-  const g=i=>document.getElementById(i);
-  if(g('b-name'))g('b-name').value=cl.full_name||'';
-  if(g('b-company'))g('b-company').value=cl.company||'';
-  if(g('b-phone'))g('b-phone').value=cl.phone?formatGreekPhone(cl.phone):('');
-  if(g('b-email'))g('b-email').value=cl.email||'';
-  if(g('b-addr'))g('b-addr').value=cl.address||'';
-  if(g('b-area'))g('b-area').value=cl.area||cl.city||'';
-  if(g('b-afm'))g('b-afm').value=cl.vat_number||'';
-  const dd=document.getElementById('client-dd');
-  if(dd){dd.classList.remove('open');clientDDOpen=false;}
-}
-function clearClientSelection(){
-  selectedClientId=null;
-  const dd=document.getElementById('client-dd');
-  if(dd){dd.classList.remove('open');clientDDOpen=false;}
-}
-
-// ─── Area autocomplete ────────────────────────────────────
-function onAreaInput(e){
-  const q=e.target.value.trim();
-  const dd=document.getElementById('area-dd');
-  if(!dd)return;
-  if(!q||q.length<1){dd.classList.remove('open');dd.innerHTML='';return}
-  const matches=GREEK_AREAS.filter(a=>fuzzyMatch(q,a)).slice(0,10);
-  if(!matches.length){dd.classList.remove('open');dd.innerHTML='';return}
-  dd.innerHTML=matches.map(a=>`<div class="area-dd-item" onclick="document.getElementById('b-area').value='${esc(a)}';document.getElementById('area-dd').classList.remove('open')">${esc(a)}</div>`).join('');
-  dd.classList.add('open');
-}
-
-// ─── Phone blur format ────────────────────────────────────
-function onPhoneBlur(e){
-  const v=e.target.value.trim();
-  if(v)e.target.value=formatGreekPhone(v);
-}
-
-// ─── Smart doc numbering ──────────────────────────────────
-const DOC_TYPE_PREFIX={quote:'Π',proforma:'ΠΤ',invoice:'Τ'};
-async function getNextDocNumber(type){
-  const prefix=DOC_TYPE_PREFIX[type]||'Π';
-  const now=new Date();
-  const y=now.getFullYear();
-  const m=String(now.getMonth()+1).padStart(2,'0');
-  const pat=`${prefix}-${y}-${m}-%`;
-  // Query max existing number for this prefix+month
-  const {data}=await sb.from('quotes').select('quote_number').ilike('quote_number',pat).order('quote_number',{ascending:false}).limit(1);
-  let seq=1;
-  if(data&&data.length){
-    const last=data[0].quote_number;
-    const parts=last.split('-');
-    const lastSeq=parseInt(parts[parts.length-1],10);
-    if(!isNaN(lastSeq))seq=lastSeq+1;
-  }
-  return `${prefix}-${y}-${m}-${String(seq).padStart(3,'0')}`;
-}
-
-// Close dropdowns on outside click
-document.addEventListener('click',function(e){
-  if(!e.target.closest('.client-search-wrap')){const dd=document.getElementById('client-dd');if(dd){dd.classList.remove('open');clientDDOpen=false}}
-  if(!e.target.closest('.area-wrap')){const dd=document.getElementById('area-dd');if(dd)dd.classList.remove('open')}
-});
-
-const ADMIN_PIN='1234';
 let S={
   page:'dashboard',quotes:[],clients:[],files:[],catPricing:[],singlePricing:[],stats:{},parsed:{},
   filters:{entity:'all',status:'all',search:'',category:'all'},
   sort:{field:'total',dir:'desc'},pg:{p:0,size:25},
-  builder:{docType:'quote',items:[],nid:1,selectedCats:[]},
-  builderStep:0,
-  adminMode:localStorage.getItem('sa_admin')==='1',
-  estSelected:[],archiveSearch:'',archiveTab:'all',
-  leads:[],leadsTab:'all',
-  jobs:[],jobsTab:'all',
-  workers:[]
+  builder:{docType:'quote',items:[],nid:1},
+  estSelected:[],archiveSearch:'',archiveTab:'all'
 };
+
+// ─── Debounce for search ──────────────────────────────────
+let _searchTimer=null;
+function debouncedSearch(val){
+  S.filters.search=val;S.pg.p=0;
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(()=>render(),250);
+}
+let _archiveSearchTimer=null;
+function debouncedArchiveSearch(val){
+  S.archiveSearch=val;
+  clearTimeout(_archiveSearchTimer);
+  _archiveSearchTimer=setTimeout(()=>render(),250);
+}
+
+// ─── Parsed lookup cache ──────────────────────────────────
+let _parsedCache=null;
+function buildParsedCache(){
+  if(_parsedCache)return _parsedCache;
+  _parsedCache={exact:{},byFilename:{}};
+  for(const k in S.parsed){
+    _parsedCache.exact[k]=S.parsed[k];
+    const fn=k.replace(/^.*[\\\/]/,'');
+    _parsedCache.byFilename[fn]=S.parsed[k];
+  }
+  return _parsedCache;
+}
 
 // ─── Helpers ───────────────────────────────────────────────
 function eur(n){return new Intl.NumberFormat('el-GR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n||0)}
@@ -699,22 +508,18 @@ function getVatAmt(q){
   if(!q.vat_included)return 0;
   return Number(q.total||0)-getNetAmt(q);
 }
-function statusLabel(s){const m={'accepted':'Αποδεκτή','rejected':'Απορρίφθηκε','pending':'Εκκρεμεί','invoiced':'Τιμολογήθηκε','sent':'Εστάλη','draft':'Πρόχειρο','active':'Ενεργή','completed':'Ολοκληρώθηκε','imported':'Εισαγωγή','offer_sent':'Εστάλη','collaborator':'Συνεργάτης'};return m[s]||s}
-function statusClass(s){const m={'accepted':'b-green','rejected':'b-red','pending':'b-amber','invoiced':'b-blue','sent':'b-gray','draft':'b-amber','active':'b-green','completed':'b-blue','imported':'b-gray','offer_sent':'b-gray','collaborator':'b-blue'};return m[s]||'b-gray'}
+function statusLabel(s){return s==='accepted'?'Αποδεκτή':s==='rejected'?'Απορρίφθηκε':s==='pending'?'Εκκρεμεί':s==='invoiced'?'Τιμολογήθηκε':'Εστάλη'}
+function statusClass(s){return s==='accepted'?'b-green':s==='rejected'?'b-red':s==='pending'?'b-amber':s==='invoiced'?'b-blue':'b-gray'}
 function fileIcon(t){if(!t)return '📄';if(t.includes('doc'))return '📝';if(t.includes('pdf'))return '📕';if(t.includes('xls'))return '📊';if(t.includes('jpg')||t.includes('png'))return '🖼️';if(t.includes('msg'))return '✉️';if(t.includes('dwg')||t.includes('dxf'))return '📐';return '📄'}
 
 // Get parsed data for a quote
 function getParsed(q){
   if(!q||!q.source_file||!S.parsed)return null;
-  // Try exact match first
-  let p=S.parsed[q.source_file];
+  const c=buildParsedCache();
+  let p=c.exact[q.source_file];
   if(p)return p;
-  // Try matching by filename only (strip leading path variations)
   const fn=q.source_file.replace(/^.*[\\\/]/,'');
-  for(const k in S.parsed){
-    if(k.endsWith(fn)||k.replace(/^.*[\\\/]/,'')===fn)return S.parsed[k];
-  }
-  return null;
+  return c.byFilename[fn]||null;
 }
 
 // ─── Data Loading ──────────────────────────────────────────
@@ -722,16 +527,13 @@ async function loadData(){
   const loadEl=document.getElementById('loading');
   loadEl.classList.remove('hidden');
   try{
-    const [qr,cr,fr,cpr,spr,parsedRes,lr,jr,wr]=await Promise.all([
+    const [qr,cr,fr,cpr,spr,parsedRes]=await Promise.all([
       sb.from('quotes').select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').order('date_issued',{ascending:false}).limit(2000),
-      sb.from('clients').select('id,full_name,company,phone,email,city,area,address,vat_number,total_quoted,total_paid,project_count').order('total_quoted',{ascending:false}),
+      sb.from('clients').select('id,full_name,company,phone,email,city,area,total_quoted,total_paid,project_count').order('total_quoted',{ascending:false}),
       sb.from('ergo_project_files').select('id,filename,file_type,file_size_bytes,quote_id,client_id,created_at').order('created_at',{ascending:false}).limit(500),
       sb.from('ergo_category_pricing').select('*').order('sample_count',{ascending:false}),
       sb.from('ergo_single_category_pricing').select('*').order('appears_in_quotes',{ascending:false}),
-      fetch('parsed_quotes.json').then(r=>r.ok?r.json():{}).catch(()=>({})),
-      sb.from('leads').select('id,full_name,phone,email,area,work_type,description,budget_range,status,is_returning,client_id,source,submitted_at,clients(full_name)').order('submitted_at',{ascending:false}).limit(200),
-      sb.from('jobs').select('id,title,status,client_id,start_date,end_date,budget,actual_cost,notes,created_at,clients(full_name,phone)').order('created_at',{ascending:false}).limit(200),
-      sb.from('workers').select('id,full_name,phone,specialty,daily_rate,status,notes,created_at').order('full_name',{ascending:true})
+      fetch('parsed_quotes.json').then(r=>r.ok?r.json():{}).catch(()=>({}))
     ]);
     if(qr.error)throw new Error('Quotes: '+qr.error.message);
     if(cr.error)throw new Error('Clients: '+cr.error.message);
@@ -741,17 +543,11 @@ async function loadData(){
     S.catPricing=cpr.data||[];
     S.singlePricing=spr.data||[];
     S.parsed=parsedRes||{};
-    S.leads=lr.data||[];
-    S.jobs=jr.data||[];
-    S.workers=wr.data||[];
+    _parsedCache=null;
     computeStats();
-    updateAdminBadge();
     document.getElementById('badge-q').textContent=S.quotes.length;
     document.getElementById('badge-cl').textContent=S.clients.length;
     document.getElementById('badge-f').textContent=Object.keys(S.parsed).length||S.files.length;
-    document.getElementById('badge-leads').textContent=S.leads.filter(l=>l.status==='new').length||S.leads.length;
-    document.getElementById('badge-jobs').textContent=S.jobs.filter(j=>j.status==='active'||j.status==='in_progress').length||S.jobs.length;
-    document.getElementById('badge-workers').textContent=S.workers.length;
     document.getElementById('last-refresh').textContent=new Date().toLocaleTimeString('el-GR',{hour:'2-digit',minute:'2-digit'});
   }catch(err){
     loadEl.innerHTML=`<div style="text-align:center;font-family:Montserrat;padding:20px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;color:#0B2265;font-size:15px;margin-bottom:8px">Σφάλμα φόρτωσης</div><div style="color:#6B7280;font-size:12px;max-width:300px">${err.message}</div><button onclick="location.reload()" style="margin-top:16px;padding:8px 20px;background:#3FAE5A;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Ανανέωση</button></div>`;
@@ -764,7 +560,7 @@ function computeStats(){
   const q=S.quotes;
   const s={totalQuotes:q.length,totalValue:0,byEntity:{},byStatus:{},byCategory:{},byMonth:{},parsedCount:0,withSections:0,withMaterials:0};
   q.forEach(r=>{
-    s.totalValue+=getNetAmt(r);
+    s.totalValue+=Number(r.total||0);
     const ent=r.entity||'Άλλο';
     s.byEntity[ent]=(s.byEntity[ent]||0)+Number(r.total||0);
     const st=r.status||'sent';
@@ -778,142 +574,6 @@ function computeStats(){
   s.avgValue=q.length?s.totalValue/q.length:0;
   s.withClient=q.filter(r=>r.client_id).length;
   S.stats=s;
-}
-
-// ─── Admin Mode ────────────────────────────────────────────
-function updateAdminBadge(){
-  const el=document.getElementById('admin-badge');
-  if(!el)return;
-  el.className='admin-badge'+(S.adminMode?' on':'');
-  el.textContent=S.adminMode?'🔓 Admin':'🔒 User';
-}
-function showAdminModal(){
-  if(S.adminMode){
-    S.adminMode=false;localStorage.removeItem('sa_admin');updateAdminBadge();
-    showModal(`<div style="padding:28px;text-align:center"><div style="font-size:36px;margin-bottom:10px">🔒</div><div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:6px">User Mode</div><div style="font-size:12px;color:#6B7280;margin-bottom:18px">Αποσυνδεθήκατε από λειτουργία Admin.</div><button onclick="closeModal()" style="padding:10px 28px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Κλείσιμο</button></div>`);
-    return;
-  }
-  showModal(`
-    <div style="padding:28px;text-align:center;max-width:320px">
-      <div style="font-size:36px;margin-bottom:10px">🔐</div>
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:6px">Είσοδος Admin</div>
-      <div style="font-size:12px;color:#6B7280;margin-bottom:18px">Εισάγετε PIN για πλήρη πρόσβαση</div>
-      <input id="admin-pin" type="password" maxlength="8" placeholder="••••" style="width:100%;text-align:center;font-size:24px;letter-spacing:6px;padding:12px;border:2px solid var(--border);border-radius:8px;margin-bottom:14px;font-family:Montserrat;font-weight:700" onkeydown="if(event.key==='Enter')submitAdminPin()">
-      <div style="display:flex;gap:10px;justify-content:center">
-        <button onclick="submitAdminPin()" style="padding:10px 28px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Είσοδος</button>
-        <button onclick="closeModal()" style="padding:10px 20px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Ακύρωση</button>
-      </div>
-      <div id="admin-pin-err" style="color:#ef4444;font-size:11.5px;margin-top:10px;display:none">Λάθος PIN</div>
-    </div>
-  `);
-  setTimeout(()=>document.getElementById('admin-pin')?.focus(),80);
-}
-function submitAdminPin(){
-  const pin=document.getElementById('admin-pin')?.value;
-  if(pin===ADMIN_PIN){
-    S.adminMode=true;localStorage.setItem('sa_admin','1');updateAdminBadge();closeModal();
-    showModal(`<div style="padding:28px;text-align:center"><div style="font-size:36px;margin-bottom:10px">🔓</div><div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--green-hover);margin-bottom:6px">Admin Mode</div><div style="font-size:12px;color:#6B7280;margin-bottom:18px">Πλήρης πρόσβαση ενεργοποιήθηκε.</div><button onclick="closeModal()" style="padding:10px 28px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Συνέχεια</button></div>`);
-  } else {
-    const err=document.getElementById('admin-pin-err');if(err)err.style.display='block';
-    const inp=document.getElementById('admin-pin');if(inp){inp.value='';inp.focus();}
-  }
-}
-
-// ─── NLP Text → Line Items Parser ─────────────────────────
-const NLP_KEYWORDS=[
-  {re:/θερμοπρόσ[οω]ψ|etics|εξωτερική μόνωση|θερμ[οό]πρ/i,cat:'thermal_facade',label:'Θερμοπρόσωψη (ETICS)'},
-  {re:/στεγανοποίηση|στεγανοποίηση|αδιαβροχοποίηση|στεγανό|στεγαν/i,cat:'waterproofing',label:'Στεγανοποίηση'},
-  {re:/αντιρρηξιο|αντιρρηξ|ρωγμ/i,cat:'anti_crack',label:'Αντιρρηξιογόνο'},
-  {re:/μπαλκόνι|μπαλκον|βεράντ/i,cat:'balconies',label:'Εργασίες Μπαλκονιού'},
-  {re:/κάγκελ[οα]|μπαλκονόπορτ|κάγκελ/i,cat:'railings',label:'Κάγκελα'},
-  {re:/αλουμίνι[οα]|pvc|κουφώματ|κουφωμ|παντζούρ/i,cat:'aluminum',label:'Αλουμίνιο / PVC'},
-  {re:/βαψί[μν]|βαψιμ|ελαιοχρωματισ|χρωματισ|βάψιμ|μπογι/i,cat:'painting',label:'Ελαιοχρωματισμοί'},
-  {re:/σοβά[δτ]|σοβαδίσμ|επίχρισμ|γύψ[οι]|γύψιν/i,cat:'plastering',label:'Σοβαδίσματα / Επιχρίσματα'},
-  {re:/μόνωση|μονωτ|μονωτικ|ταρατσ/i,cat:'insulation',label:'Μόνωση Ταράτσας'},
-  {re:/σκαλωσ/i,cat:'scaffolding',label:'Σκαλωσιά'},
-  {re:/πλακίδι|κεραμικ|δάπεδ|πλακάκι|μάρμαρ|γρανίτ/i,cat:'flooring',label:'Δάπεδα / Πλακίδια'},
-  {re:/πόρτ[αε]|ασφαλεί[αε]|εσωτερικ.*πόρτ/i,cat:'doors_windows',label:'Πόρτες / Κουφώματα'},
-  {re:/ανακαίνιση|ανακαίνιση|ολική ανακαίνιση/i,cat:'renovation',label:'Ανακαίνιση'},
-  {re:/ξυλουργ|ντουλάπ|ξύλιν/i,cat:'carpentry',label:'Ξυλουργικά'},
-  {re:/υδραυλικ|σωληνώσ|νερά|βρύσ|καζανάκ/i,cat:'plumbing',label:'Υδραυλικές Εργασίες'},
-  {re:/ηλεκτρολογ|καλωδ|πρίζ|διακόπτ|πίνακ/i,cat:'electrical',label:'Ηλεκτρολογικές Εργασίες'},
-  {re:/στέγη|κεραμίδ|δώμα|στέγαστρ/i,cat:'roofing',label:'Στέγη'},
-  {re:/επισκευ|αποκατάστ|τρύπ|ρηγματ|χτύπημ|φθορ/i,cat:'repairs',label:'Επισκευές / Αποκαταστάσεις'},
-];
-const QTY_RE=/(\d[\d.,]*)\s*(τμ|τ\.μ\.|τ\.μ|m2|τρεχ\.?μ\.?|τρεχ|τρεχόμεν|m\.?|μ\.?β\.?|τεμ\.?|τεμάχι|ώρ|ημέρ|κιλ|lit|λίτρ)/i;
-const UNIT_MAP={'τμ':'τμ','τ.μ.':'τμ','τ.μ':'τμ','m2':'τμ','τρεχ.μ.':'τρεχ.μ.','τρεχ':'τρεχ.μ.','τρεχόμεν':'τρεχ.μ.','m.':'τρεχ.μ.','μ.β.':'τρεχ.μ.','τεμ.':'τεμ.','τεμάχι':'τεμ.','ώρ':'ώρα','ημέρ':'ημέρα','κιλ':'κιλό','lit':'λίτρο','λίτρ':'λίτρο'};
-
-function parseNLText(text){
-  if(!text||!text.trim())return[];
-  // Split into sentences/lines
-  const lines=text.split(/[\n\r;,]+/).map(l=>l.trim()).filter(l=>l.length>3);
-  const results=[];
-  lines.forEach(line=>{
-    // Find category match
-    const match=NLP_KEYWORDS.find(k=>k.re.test(line));
-    const cat=match?.cat;
-    const label=match?.label||line.replace(/\d[\d.,]*\s*(τμ|τ\.μ\.|m2|τρεχ|τεμ|ώρ|ημέρ)/gi,'').trim().replace(/\s+/g,' ');
-    // Find quantity
-    const qm=QTY_RE.exec(line);
-    let qty=1,unit='εφαπ.';
-    if(qm){
-      qty=parseFloat(qm[1].replace(',','.'))||1;
-      const rawUnit=qm[2].toLowerCase().replace(/\s/g,'');
-      unit=UNIT_MAP[rawUnit]||UNIT_MAP[Object.keys(UNIT_MAP).find(k=>rawUnit.startsWith(k))]||'εφαπ.';
-    }
-    // Suggest price from singlePricing
-    let price=0;
-    if(cat){
-      const sp=S.singlePricing.find(s=>s.category===cat);
-      if(sp)price=Math.round(Number(sp.combo_contribution_avg||sp.solo_avg||0)/Math.max(qty,1));
-    }
-    results.push({desc:label.slice(0,80)||'Εργασία',qty,unit,price,cat});
-  });
-  return results.filter(r=>r.desc);
-}
-
-let voiceRec=null;
-function startVoice(){
-  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SpeechRecognition){alert('Η αναγνώριση φωνής δεν υποστηρίζεται σε αυτό το πρόγραμμα περιήγησης.');return;}
-  if(voiceRec){voiceRec.stop();voiceRec=null;updateVoiceBtn(false);return;}
-  voiceRec=new SpeechRecognition();
-  voiceRec.lang='el-GR';voiceRec.continuous=true;voiceRec.interimResults=true;
-  voiceRec.onresult=e=>{
-    let interim='',final='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal)final+=e.results[i][0].transcript+'\n';
-      else interim+=e.results[i][0].transcript;
-    }
-    const ta=document.getElementById('ai-text-input');
-    if(ta&&final)ta.value=(ta.value+final).trim();
-    const prev=document.getElementById('ai-interim');
-    if(prev)prev.textContent=interim;
-  };
-  voiceRec.onerror=e=>{console.warn('Voice error:',e.error);voiceRec=null;updateVoiceBtn(false)};
-  voiceRec.onend=()=>{voiceRec=null;updateVoiceBtn(false)};
-  voiceRec.start();
-  updateVoiceBtn(true);
-}
-function updateVoiceBtn(on){
-  const btn=document.getElementById('voice-btn');
-  if(!btn)return;
-  btn.className='voice-btn '+(on?'recording':'idle');
-  btn.innerHTML=on
-    ?'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg> Παύση'
-    :'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zm-1 19.93V23h2v-2.07A8.001 8.001 0 0020 13h-2a6 6 0 01-12 0H4a8.001 8.001 0 007 7.93z"/></svg> Μικρόφωνο';
-}
-function applyNLPToBuilder(){
-  const ta=document.getElementById('ai-text-input');
-  if(!ta||!ta.value.trim())return;
-  const parsed=parseNLText(ta.value);
-  if(!parsed.length){alert('Δεν βρέθηκαν εργασίες. Γράψτε πιο αναλυτικά (π.χ. "Βαψίματα 3 δωμάτια 90τμ").');return;}
-  parsed.forEach(item=>{
-    S.builder.items.push({id:S.builder.nid++,desc:item.desc,qty:item.qty,unit:item.unit,price:item.price});
-  });
-  ta.value='';
-  const prev=document.getElementById('ai-interim');if(prev)prev.textContent='';
-  render();
 }
 
 // ─── Navigation ────────────────────────────────────────────
@@ -931,7 +591,6 @@ function updateMobileNav(page){
 }
 function go(page){
   S.page=page;S.pg.p=0;
-  if(page==='builder'){S.builderStep=0;S.builder={docType:'quote',items:[],nid:1,selectedCats:[]}}
   document.querySelectorAll('.nav-link').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
   closeSidebar();
   updateMobileNav(page);
@@ -939,8 +598,7 @@ function go(page){
 }
 function render(){
   const c=document.getElementById('content'),t=document.getElementById('topbar');
-  c.classList.remove('fade-in');void c.offsetWidth;c.classList.add('fade-in');
-  const pages={dashboard:renderDashboard,quotes:renderQuotes,builder:renderBuilder,clients:renderClients,archive:renderArchive,timeline:renderTimeline,estimator:renderEstimator,analytics:renderAnalytics,leads:renderLeads,jobs:renderJobs,workers:renderWorkers};
+  const pages={dashboard:renderDashboard,quotes:renderQuotes,builder:renderBuilder,clients:renderClients,archive:renderArchive,timeline:renderTimeline,estimator:renderEstimator,analytics:renderAnalytics};
   (pages[S.page]||renderDashboard)(t,c);
 }
 function setTopbar(left,right=''){
@@ -957,7 +615,7 @@ function renderDashboard(t,c){
   const s=S.stats;
   const accepted=s.byStatus.accepted||{count:0,value:0};
   const pending=s.byStatus.pending||{count:0,value:0};
-  setTopbar(`<h2>Πίνακας Ελέγχου</h2><div style="font-size:11px;color:#9CA3AF;margin-top:2px">${new Date().toLocaleDateString('el-GR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>`,
+  setTopbar(`<h2>Dashboard</h2><div style="font-size:11px;color:#9CA3AF;margin-top:2px">${new Date().toLocaleDateString('el-GR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>`,
     `<button class="btn btn-primary" onclick="go('builder')"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>Νέα Προσφορά</button>`);
 
   c.innerHTML=`
@@ -988,7 +646,7 @@ function renderDashboard(t,c){
         ${Object.entries(s.byEntity).sort((a,b)=>b[1]-a[1]).map(([ent,val])=>{
           const pct=(val/s.totalValue*100).toFixed(1);
           const color=ent==='CLEMIC'?'var(--blue)':ent==='SOLID ANADOMISI EE'?'var(--green)':'#9CA3AF';
-          const cnt=S.quotes.filter(q=>(q.entity||'Άλλο')===ent).length;
+          const cnt=S.quotes.filter(q=>q.entity===ent).length;
           return `<div style="margin-bottom:14px">
             <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
               <span style="font-weight:700">${ent} <span style="font-weight:400;color:#9CA3AF">(${cnt} προσφ.)</span></span>
@@ -1072,7 +730,7 @@ function renderQuotes(t,c){
   c.innerHTML=`
     <div style="margin-bottom:10px;font-size:12px;color:#6B7280">${num(total)} προσφορές · ${eur(totalVal)} συνολική αξία (χωρίς ΦΠΑ)</div>
     <div class="filter-bar">
-      <input type="text" placeholder="Αναζήτηση διεύθυνσης, πελάτη, αριθμού, περιγραφής εργασίας..." value="${esc(f.search)}" oninput="S.filters.search=this.value;S.pg.p=0;render()">
+      <input type="text" placeholder="Αναζήτηση διεύθυνσης, πελάτη, αριθμού, περιγραφής εργασίας..." value="${esc(f.search)}" oninput="debouncedSearch(this.value)">
       <select onchange="S.filters.entity=this.value;S.pg.p=0;render()">
         <option value="all" ${f.entity==='all'?'selected':''}>Όλες Οντότητες</option>
         <option value="CLEMIC" ${f.entity==='CLEMIC'?'selected':''}>CLEMIC</option>
@@ -1145,7 +803,7 @@ function extractLineTitle(desc){
   return{title,sub};
 }
 
-async function openQuote(id){
+function openQuote(id){
   const q=S.quotes.find(r=>r.id===id);if(!q)return;
   const cats=(q.work_categories||[]).map(c=>CATS[c]||c);
   const net=getNetAmt(q);
@@ -1155,18 +813,12 @@ async function openQuote(id){
   const vatAmt=vatIncl?getVatAmt(q):net*vatRate/100;
   const grandTotal=vatIncl?Number(q.total):net+vatAmt;
 
-  // ── Fetch line items: DB first, then parsed, then notes fallback ──
+  // Build line items from parsed sections
   let lineItems=[];
-  let lineSource='none'; // 'db' | 'parsed' | 'notes'
-  const {data:dbItems}=await sb.from('quote_line_items').select('*').eq('quote_id',id).order('sort_order');
-  if(dbItems&&dbItems.length){
-    lineSource='db';
-    lineItems=dbItems.map((li,idx)=>({n:li.sort_order||idx+1,title:li.description,sub:li.notes||'',cost:Number(li.total_price||li.quantity*li.unit_price||0),qty:Number(li.quantity||1),unit:li.unit||'εφαπ.',unitPrice:Number(li.unit_price||0)}));
-  } else if(p&&p.s&&p.s.length){
-    lineSource='parsed';
+  if(p&&p.s&&p.s.length){
     lineItems=p.s.map((sec,i)=>{
       const ex=extractLineTitle(sec.description);
-      return{n:i+1,title:ex.title,sub:ex.sub,cost:sec.cost||0,qty:1,unit:'εφαπ.',unitPrice:sec.cost||0};
+      return{n:i+1,title:ex.title,sub:ex.sub,cost:sec.cost||0};
     });
   }
   const sectionTotal=lineItems.reduce((a,li)=>a+li.cost,0);
@@ -1174,10 +826,8 @@ async function openQuote(id){
   // Materials
   const mats=(p&&p.m&&p.m.length)?p.m:[];
 
-  // Source file / PDF link
-  const srcRaw=q.source_file||null;
-  const srcIsURL=srcRaw&&(srcRaw.startsWith('http')||srcRaw.startsWith('//'));
-  const srcFile=srcRaw?(srcIsURL?srcRaw.split('?')[0].split('/').pop():srcRaw.replace(/^.*[\\\/]/,'')):null;
+  // Source file for attachment
+  const srcFile=q.source_file?q.source_file.replace(/^.*[\\\/]/,''):null;
 
   // ─── Card 1: Document Info ───
   const card1=`<div class="qd-card"><div class="qd-card-header"><div class="step">1</div><h3>Στοιχεία Εγγράφου</h3></div><div class="qd-card-body">
@@ -1188,7 +838,7 @@ async function openQuote(id){
     </div>
     <div class="qd-grid-2" style="margin-top:8px">
       <div class="qd-field"><div class="qf-label">Κατάσταση</div><div class="qf-value"><span id="status-pill-${q.id}" class="badge ${statusClass(q.status)} status-pill" style="font-size:11.5px;padding:4px 14px;cursor:pointer" onclick="cycleStatus('${q.id}')" title="Κλικ για αλλαγή">${statusLabel(q.status)}</span> <span style="font-size:9px;color:#9CA3AF;margin-left:4px">κλικ για αλλαγή</span></div></div>
-      <div class="qd-field"><div class="qf-label">Φάκελος</div><div class="qf-value">${statusLabel(q.original_status)||esc(q.original_status||'—')}</div></div>
+      <div class="qd-field"><div class="qf-label">Φάκελος</div><div class="qf-value">${esc(q.original_status||'—')}</div></div>
     </div>
   </div></div>`;
 
@@ -1211,48 +861,37 @@ async function openQuote(id){
       <div class="qd-field"><div class="qf-label">Κατηγορίες Εργασιών</div><div class="qf-value" style="background:none;border:none;padding:2px 0;display:flex;flex-wrap:wrap;gap:4px">${cats.length?cats.map(c=>`<span class="badge b-blue" style="font-size:10.5px;padding:2px 9px">${c}</span>`).join(''):'<span style="color:#9CA3AF;font-size:11px">—</span>'}</div></div>
       <div class="qd-field"><div class="qf-label">Υλικά</div><div class="qf-value" style="background:none;border:none;padding:2px 0;display:flex;flex-wrap:wrap;gap:4px">${mats.length?mats.map(m=>`<span class="mat-badge">${esc(m)}</span>`).join(''):'<span style="color:#9CA3AF;font-size:11px">—</span>'}</div></div>
     </div>
-    ${srcFile?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6">
-      <div class="qf-label" style="font-size:9px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Αρχείο / PDF</div>
-      ${srcIsURL
-        ?`<a href="${esc(srcRaw)}" target="_blank" rel="noopener" class="attach-badge" style="cursor:pointer;text-decoration:none"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>📄 ${esc(srcFile)} <span style="font-size:9.5px;opacity:.7">— Άνοιγμα</span></a>`
-        :`<div class="attach-badge"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>${esc(srcFile)}</div>`}
-      ${!srcIsURL?`<button onclick="regenPDF('${q.id}')" style="margin-top:8px;padding:5px 12px;background:var(--green);color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">⬇ Αναδημιουργία PDF</button>`:''}
-    </div>`:''}
-    ${!srcFile?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6"><button onclick="regenPDF('${q.id}')" style="padding:6px 14px;background:var(--blue-light);color:var(--blue);border:1.5px solid #c5d0e8;border-radius:7px;font-weight:700;font-size:11.5px;cursor:pointer;font-family:Montserrat">📄 Δημιουργία PDF</button></div>`:''}
+    ${srcFile?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6"><div class="qf-label" style="font-size:9px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Αρχείο Αναφοράς</div><div class="attach-badge"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>${esc(srcFile)}</div></div>`:''}
   </div></div>`;
 
-  // ─── Card 4: Line Items ───────────────────────────────────
+  // ─── Card 4: Line Items (the key transformation) ───
   let itemsTableHTML='';
-  const sourceBadge=lineSource==='db'?`<span style="font-size:9px;background:#F0FAF3;color:#15803D;padding:2px 7px;border-radius:8px;font-weight:700;margin-left:8px">✓ Αναλυτικά</span>`
-    :lineSource==='parsed'?`<span style="font-size:9px;background:#EFF6FF;color:#1D4ED8;padding:2px 7px;border-radius:8px;font-weight:700;margin-left:8px">Parsed</span>`:'';
   if(lineItems.length){
-    const showUnitPrice=lineSource==='db'&&lineItems.some(li=>li.qty!==1||li.unit!=='εφαπ.'||li.unitPrice!==li.cost);
     const rows=lineItems.map(li=>`<tr>
       <td class="row-num">${li.n}</td>
       <td class="item-desc"><div class="item-desc-main">${esc(li.title)}</div>${li.sub?`<div class="item-desc-sub">${esc(li.sub)}</div>`:''}</td>
-      <td style="text-align:center;color:#6B7280;font-size:11px">${li.qty||1}</td>
-      <td style="text-align:center;color:#6B7280;font-size:11px">${li.unit||'εφαπ.'}</td>
-      ${showUnitPrice?`<td class="item-amt">€${eur2(li.unitPrice||li.cost)}</td>`:''}
-      <td class="item-amt" style="font-weight:600">€${eur2(li.cost)}</td>
+      <td style="text-align:center;color:#6B7280;font-size:11px">1</td>
+      <td style="text-align:center;color:#6B7280;font-size:11px">εφαπ.</td>
+      <td class="item-amt">€${eur2(li.cost)}</td>
+      <td class="item-amt">€${eur2(li.cost)}</td>
     </tr>`).join('');
-    const colSpan=showUnitPrice?5:4;
     itemsTableHTML=`<div style="overflow-x:auto"><table class="qd-items-table">
-      <thead><tr><th style="width:30px">#</th><th>Περιγραφή Εργασίας</th><th style="width:7%;text-align:center">Ποσ.</th><th style="width:8%;text-align:center">Μον.</th>${showUnitPrice?'<th style="width:12%;text-align:right">Τιμή Μον.</th>':''}<th style="width:14%;text-align:right">Σύνολο</th></tr></thead>
+      <thead><tr><th style="width:30px">#</th><th style="width:48%">Περιγραφή Εργασίας</th><th style="width:7%;text-align:center">Ποσ.</th><th style="width:8%;text-align:center">Μον.</th><th style="width:14%;text-align:right">Τιμή Μον.</th><th style="width:14%;text-align:right">Σύνολο</th></tr></thead>
       <tbody>${rows}</tbody>
-      <tfoot><tr><td colspan="${colSpan}" style="text-align:right;padding-right:10px;font-size:11px;color:#6B7280">Σύνολο Εργασιών</td><td style="text-align:right;font-weight:700">€${eur2(sectionTotal)}</td></tr></tfoot>
+      <tfoot><tr><td colspan="5" style="text-align:right;padding-right:10px">Σύνολο Εργασιών</td><td style="text-align:right">€${eur2(sectionTotal)}</td></tr></tfoot>
     </table></div>`;
   } else if(q.notes){
-    // Fallback: single notes blob
+    // Fallback: single line item from notes
     itemsTableHTML=`<div style="overflow-x:auto"><table class="qd-items-table">
-      <thead><tr><th style="width:30px">#</th><th>Περιγραφή Εργασίας</th><th style="width:7%;text-align:center">Ποσ.</th><th style="width:8%;text-align:center">Μον.</th><th style="width:14%;text-align:right">Σύνολο</th></tr></thead>
-      <tbody><tr><td class="row-num">1</td><td class="item-desc"><div class="item-desc-main">${esc(q.notes.split('\n')[0]||'Εργασίες')}</div>${q.notes.split('\n').length>1?`<div class="item-desc-sub">${esc(q.notes.split('\n').slice(1).join(' ').slice(0,200))}</div>`:''}</td><td style="text-align:center;color:#6B7280;font-size:11px">1</td><td style="text-align:center;color:#6B7280;font-size:11px">εφαπ.</td><td class="item-amt" style="font-weight:600">€${eur2(net)}</td></tr></tbody>
-      <tfoot><tr><td colspan="4" style="text-align:right;padding-right:10px;font-size:11px;color:#6B7280">Σύνολο Εργασιών</td><td style="text-align:right;font-weight:700">€${eur2(net)}</td></tr></tfoot>
+      <thead><tr><th style="width:30px">#</th><th style="width:48%">Περιγραφή Εργασίας</th><th style="width:7%;text-align:center">Ποσ.</th><th style="width:8%;text-align:center">Μον.</th><th style="width:14%;text-align:right">Τιμή Μον.</th><th style="width:14%;text-align:right">Σύνολο</th></tr></thead>
+      <tbody><tr><td class="row-num">1</td><td class="item-desc"><div class="item-desc-main">${esc(q.notes.split('\n')[0]||'Εργασίες')}</div></td><td style="text-align:center;color:#6B7280;font-size:11px">1</td><td style="text-align:center;color:#6B7280;font-size:11px">εφαπ.</td><td class="item-amt">€${eur2(net)}</td><td class="item-amt">€${eur2(net)}</td></tr></tbody>
+      <tfoot><tr><td colspan="5" style="text-align:right;padding-right:10px">Σύνολο Εργασιών</td><td style="text-align:right">€${eur2(net)}</td></tr></tfoot>
     </table></div>`;
   } else {
-    itemsTableHTML=`<div style="text-align:center;padding:20px;color:#9CA3AF;font-size:12px">Δεν βρέθηκαν αναλυτικές εργασίες. Ανοίξτε την προσφορά από το Αρχείο για λεπτομέρειες.</div>`;
+    itemsTableHTML=`<div style="text-align:center;padding:20px;color:#9CA3AF;font-size:12px">Δεν βρέθηκαν αναλυτικές εργασίες</div>`;
   }
 
-  const card4=`<div class="qd-card"><div class="qd-card-header"><div class="step">4</div><h3>Εργασίες & Κόστη${sourceBadge}</h3></div><div class="qd-card-body">
+  const card4=`<div class="qd-card"><div class="qd-card-header"><div class="step">4</div><h3>Εργασίες & Κόστη</h3></div><div class="qd-card-body">
     ${itemsTableHTML}
   </div></div>`;
 
@@ -1312,13 +951,12 @@ async function cycleStatus(id){
   }
 }
 function closeModal(){document.getElementById('modal').classList.add('hidden')}
-function showModal(html){document.getElementById('modal-box').innerHTML=html;document.getElementById('modal').classList.remove('hidden')}
 
 // ─── CLIENTS ───────────────────────────────────────────────
 function renderClients(t,c){
   setTopbar(`<h2>Πελάτες</h2><span style="font-size:11px;color:#9CA3AF;margin-left:8px">${num(S.clients.length)} καταχωρήσεις</span>`);
   c.innerHTML=`
-    <div class="filter-bar"><input type="text" placeholder="Αναζήτηση ονόματος, εταιρείας, τηλεφώνου..." id="cl-search" oninput="renderCT()"></div>
+    <div class="filter-bar"><input type="text" placeholder="Αναζήτηση ονόματος, εταιρείας, τηλεφώνου..." id="cl-search" oninput="clearTimeout(_searchTimer);_searchTimer=setTimeout(renderCT,250)"></div>
     <div class="card" style="overflow:hidden"><div style="overflow-x:auto"><table class="data-table">
       <thead><tr><th>Ονοματεπώνυμο</th><th class="hide-mobile">Εταιρεία</th><th>Τηλέφωνο</th><th class="hide-mobile">Email</th><th class="hide-mobile">Περιοχή</th><th style="text-align:right">Σύνολο</th><th style="text-align:center">Αρ.</th></tr></thead>
       <tbody id="cl-tbody"></tbody>
@@ -1410,7 +1048,7 @@ function renderArchive(t,c){
     </div>
 
     <div class="filter-bar" style="margin-bottom:8px">
-      <input type="text" placeholder="Αναζήτηση σε περιγραφές, υλικά, πελάτες, διευθύνσεις..." value="${esc(S.archiveSearch)}" oninput="S.archiveSearch=this.value;render()">
+      <input type="text" placeholder="Αναζήτηση σε περιγραφές, υλικά, πελάτες, διευθύνσεις..." value="${esc(S.archiveSearch)}" oninput="debouncedArchiveSearch(this.value)">
     </div>
 
     <div class="tab-bar">
@@ -1672,67 +1310,21 @@ function estToBuilder(){
 }
 
 // ─── BUILDER ───────────────────────────────────────────────
-const CAT_ICONS={painting:'🎨',repairs:'🔧',plastering:'🪣',insulation:'🏠',scaffolding:'🏗️',flooring:'🧱',doors_windows:'🚪',renovation:'✨',carpentry:'🪚',plumbing:'🔵',electrical:'⚡',roofing:'🏚️',thermal_facade:'🌡️',waterproofing:'💧',anti_crack:'🔩',balconies:'🏛️',railings:'⛓️',aluminum:'🪟'};
-
-function renderBuilderStep0(t,c){
-  setTopbar(`<h2>Νέα Προσφορά</h2>`,`<button class="btn btn-secondary" onclick="go('quotes')">← Πίσω</button>`);
-  const sel=S.builder.selectedCats||[];
-  c.innerHTML=`
-    <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">1</div><h3>Επιλογή Εργασιών</h3></div><div class="card-body">
-      <div style="font-size:12.5px;color:#6B7280;margin-bottom:14px">Επιλέξτε τις κατηγορίες εργασιών για να ξεκινήσετε γρήγορα:</div>
-      <div class="cat-pick-grid">
-        ${Object.entries(CATS).map(([k,v])=>`
-          <div class="cat-pick-item ${sel.includes(k)?'selected':''}" onclick="toggleBuilderCat('${k}')">
-            <span style="font-size:22px">${CAT_ICONS[k]||'🔨'}</span>
-            <span>${v}</span>
-          </div>`).join('')}
-      </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:10px;border-top:1px solid #f3f4f6">
-        <button class="btn btn-secondary" onclick="S.builderStep=1;S.builder.selectedCats=[];render()">Παράλειψη →</button>
-        <button class="btn btn-primary" onclick="applySelectedCats()" ${sel.length===0?'disabled':''} style="position:relative">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          Συνέχεια ${sel.length?`(${sel.length})`:''}</button>
-      </div>
-    </div></div>`;
-}
-function toggleBuilderCat(cat){
-  const sel=S.builder.selectedCats||[];
-  const idx=sel.indexOf(cat);
-  if(idx>-1)sel.splice(idx,1);else sel.push(cat);
-  S.builder.selectedCats=sel;
-  render();
-}
-function applySelectedCats(){
-  const sel=S.builder.selectedCats||[];
-  if(!sel.length){S.builderStep=1;render();return;}
-  S.builder.items=[];S.builder.nid=1;
-  sel.forEach(cat=>{
-    const sp=S.singlePricing.find(s=>s.category===cat);
-    const label=CATS[cat]||cat;
-    const price=Math.round(Number(sp?.combo_contribution_avg||sp?.solo_avg||0));
-    S.builder.items.push({id:S.builder.nid++,desc:label,qty:1,unit:'εφαπ.',price});
-  });
-  if(!S.builder.items.length)S.builder.items=[{id:S.builder.nid++,desc:'',qty:1,unit:'εφαπ.',price:0}];
-  S.builderStep=1;render();
-}
-
 function renderBuilder(t,c){
-  if(S.builderStep===0){renderBuilderStep0(t,c);return;}
-  setTopbar(`<h2>Νέα Προσφορά</h2>`,`<div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="S.builderStep=0;render()">← Κατηγορίες</button><button class="btn btn-secondary" onclick="go('quotes')">✕ Ακύρωση</button></div>`);
+  setTopbar(`<h2>Νέα Προσφορά</h2>`,`<button class="btn btn-secondary" onclick="go('quotes')">← Πίσω</button>`);
   const b=S.builder;
-  if(!b.items.length){b.items=[{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0}]}
+  if(!b.items.length){b.items=[{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0},{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0},{id:b.nid++,desc:'',qty:1,unit:'εφαπ.',price:0}]}
   const now=new Date();const valid=new Date(now);valid.setDate(valid.getDate()+30);
-  const defNum=b._cachedNum||`Π-${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-...`;
-  if(!b._numLoaded){b._numLoaded=true;getNextDocNumber(b.docType).then(n=>{b._cachedNum=n;const el=document.getElementById('b-num');if(el&&(el.value.endsWith('...')||el.value===defNum))el.value=n})}
+  const defNum=`Π-${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-001`;
 
   c.innerHTML=`
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">1</div><h3>Τύπος Εγγράφου</h3></div><div class="card-body">
       <div class="grid-2" style="align-items:end">
         <div class="field"><label>Είδος</label>
           <div class="type-pills">
-            <button class="type-pill ${b.docType==='quote'?'active':''}" onclick="S.builder.docType='quote';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Προσφορά</button>
-            <button class="type-pill ${b.docType==='proforma'?'active':''}" onclick="S.builder.docType='proforma';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Προτιμολόγιο</button>
-            <button class="type-pill ${b.docType==='invoice'?'active':''}" onclick="S.builder.docType='invoice';S.builder._numLoaded=false;S.builder._cachedNum=null;render()">Τιμολόγιο</button>
+            <button class="type-pill ${b.docType==='quote'?'active':''}" onclick="S.builder.docType='quote';render()">Προσφορά</button>
+            <button class="type-pill ${b.docType==='proforma'?'active':''}" onclick="S.builder.docType='proforma';render()">Προτιμολόγιο</button>
+            <button class="type-pill ${b.docType==='invoice'?'active':''}" onclick="S.builder.docType='invoice';render()">Τιμολόγιο</button>
           </div>
         </div>
         <div class="grid-2">
@@ -1744,14 +1336,15 @@ function renderBuilder(t,c){
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">2</div><h3>Στοιχεία Πελάτη</h3></div><div class="card-body">
       <div class="grid-2">
-        <div class="field client-search-wrap"><label>Ονοματεπώνυμο / Επωνυμία *</label><input type="text" id="b-name" autocomplete="off" placeholder="Αναζήτηση πελάτη..." oninput="onClientInput(event)" onkeydown="onClientKeydown(event)">${selectedClientId?`<div style="font-size:10px;color:var(--green-hover);margin-top:2px">✓ ${esc(S.clients.find(c=>c.id===selectedClientId)?.full_name||'')}</div>`:''}<div id="client-dd" class="client-dd"></div></div>
+        <div class="field"><label>Ονοματεπώνυμο / Επωνυμία *</label><input type="text" id="b-name" list="cl-list" placeholder="π.χ. Γεώργιος Παπαδόπουλος"></div>
         <div class="field"><label>Εταιρεία</label><input type="text" id="b-company" placeholder="Επωνυμία εταιρείας"></div>
-        <div class="field phone-formatted"><label>Τηλέφωνο</label><span class="phone-flag">🇬🇷</span><input type="tel" id="b-phone" placeholder="+30 69X XXX XXXX" onblur="onPhoneBlur(event)"></div>
+        <div class="field"><label>Τηλέφωνο</label><input type="tel" id="b-phone" placeholder="69X XXX XXXX"></div>
         <div class="field"><label>Email</label><input type="email" id="b-email" placeholder="email@example.com"></div>
         <div class="field"><label>Διεύθυνση</label><input type="text" id="b-addr" placeholder="Οδός & αριθμός"></div>
-        <div class="field area-wrap" style="position:relative"><label>Περιοχή</label><input type="text" id="b-area" autocomplete="off" placeholder="π.χ. Κάτω Πατήσια, Αθήνα" oninput="onAreaInput(event)"><div id="area-dd" class="area-dd"></div></div>
-        <div class="field"><label>ΑΦΜ</label><input type="text" id="b-afm" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" inputmode="numeric"></div>
+        <div class="field"><label>Περιοχή</label><input type="text" id="b-area" placeholder="π.χ. Κάτω Πατήσια, Αθήνα"></div>
+        <div class="field"><label>ΑΦΜ</label><input type="text" id="b-afm" placeholder="123456789"></div>
       </div>
+      <datalist id="cl-list">${S.clients.slice(0,100).map(cl=>`<option value="${esc(cl.full_name)}">`).join('')}</datalist>
     </div></div>
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">3</div><h3>Στοιχεία Έργου</h3></div><div class="card-body">
@@ -1763,21 +1356,6 @@ function renderBuilder(t,c){
     </div></div>
 
     <div class="card" style="margin-bottom:14px"><div class="card-header"><div class="step">4</div><h3>Εργασίες & Κόστη</h3></div><div class="card-body">
-      <div class="ai-input-box">
-        <div class="ai-input-label"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M12 2L9 9l-7 2 5 5-1 7 6-3 6 3-1-7 5-5-7-2z"/></svg></span> AI Ανάλυση Κειμένου / Φωνής</div>
-        <textarea id="ai-text-input" class="ai-textarea" placeholder="Περιγράψτε τις εργασίες φυσικά&#10;π.χ. «Σοβαδίσματα εξωτερικού τοίχου 120τμ, θερμοπρόσωψη ETICS 80τμ, βαψίματα 3 δωμάτια»"></textarea>
-        <span id="ai-interim" style="font-size:11px;color:#9CA3AF;font-style:italic;display:block;min-height:14px;margin-top:3px"></span>
-        <div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
-          <button id="voice-btn" class="voice-btn idle" onclick="startVoice()">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zm-1 19.93V23h2v-2.07A8.001 8.001 0 0020 13h-2a6 6 0 01-12 0H4a8.001 8.001 0 007 7.93z"/></svg>
-            Μικρόφωνο
-          </button>
-          <button class="btn btn-primary btn-sm" onclick="applyNLPToBuilder()">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            Ανάλυση & Προσθήκη Εργασιών
-          </button>
-        </div>
-      </div>
       <div style="font-size:9.5px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Γρήγορη Προσθήκη:</div>
       <div class="quick-cats">
         ${['Σοβαδίσματα & Επισκευές','Θερμομόνωση Ταράτσας','Θερμοπρόσωψη (ETICS)','Αποξηλώσεις','Υδραυλικές Εργασίες','Ηλεκτρολογικές Εργασίες','Επιχρίσματα','Γύψινες Κατασκευές','Ξυλουργικά','Πλακίδια','Πόρτες Ασφαλείας','Εσωτερικές Πόρτες','Αλουμίνιο / PVC','Ελαιοχρωματισμοί','Μάρμαρα Σκάλας','Σκαλωσιά','Μόνωση / Στεγανοποίηση','Διαμόρφωση Χώρου'].map(cat=>`<button class="quick-cat" onclick="addBI('${esc(cat)}')">${cat}</button>`).join('')}
@@ -1875,56 +1453,9 @@ async function genPDF(){
     if(!res.ok)throw new Error(data.error||data.message||`HTTP ${res.status}`);
     const url=data.url||data.pdf_url||data.presigned_url;
     if(!url)throw new Error('Δεν επιστράφηκε URL PDF.');
-
-    // ── Save quote + line items to Supabase ──────────────────
-    const disc2=parseFloat(document.getElementById('b-disc')?.value)||0;
-    const vat2=parseFloat(document.getElementById('b-vat')?.value)||24;
-    const sub2=filled.reduce((s,i)=>s+(i.qty*i.price),0);
-    const dis2=sub2*disc2/100,after2=sub2-dis2,vatAmt2=after2*vat2/100,tot2=after2+vatAmt2;
-    const payMode=document.getElementById('b-pay')?.value||'30-60-10';
-    const payTermsMap={'30-60-10':'30% προκαταβολή, 60% κατά τη διάρκεια, 10% ολοκλήρωση','50-50':'50% προκαταβολή, 50% ολοκλήρωση','30-70':'30% προκαταβολή, 70% ολοκλήρωση','100':'100% εφάπαξ'};
-    const detectedCats=[...new Set(filled.map(i=>NLP_KEYWORDS.find(k=>k.re.test(i.desc))?.cat).filter(Boolean))];
-    const qrow={quote_number:payload.quote.quote_number,entity:'SOLID ANADOMISI EE',status:'sent',subtotal:after2,vat_pct:vat2,vat_amount:vatAmt2,total:tot2,vat_included:false,notes:payload.quote.notes||null,date_issued:payload.quote.created_at,property_address:payload.job.address||payload.job.title||null,payment_terms:payTermsMap[payMode]||payMode,work_categories:detectedCats,source_file:url,client_id:selectedClientId||null};
-    const {data:qSaved,error:qErr}=await sb.from('quotes').insert(qrow).select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').single();
-    if(qErr){console.warn('Supabase quote save failed:',qErr.message)}
-    else{
-      // Save line items
-      const liRows=filled.map((item,i)=>({quote_id:qSaved.id,sort_order:i+1,description:item.desc,quantity:item.qty,unit:item.unit,unit_price:item.price}));
-      await sb.from('quote_line_items').insert(liRows);
-      // Update in-memory state
-      S.quotes.unshift(qSaved);
-      S.stats.totalQuotes=(S.stats.totalQuotes||0)+1;
-      S.stats.totalValue=(S.stats.totalValue||0)+tot2;
-      document.getElementById('badge-q').textContent=S.quotes.length;
-    }
-
-    document.getElementById('b-result').innerHTML=`<div style="background:#fff;border:2px solid var(--green);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;max-width:480px;margin:0 auto"><span style="font-size:28px">✅</span><div style="text-align:left"><div style="font-family:Montserrat;font-weight:700;color:var(--green-hover);font-size:13px">PDF δημιουργήθηκε!</div><div style="font-size:11.5px;color:#6B7280;margin-top:2px">${esc(payload.quote.quote_number)} — ${esc(name)}</div><a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;border-radius:6px;padding:7px 14px;font-family:Montserrat;font-weight:700;font-size:11.5px;text-decoration:none;margin-top:8px">Άνοιγμα PDF</a>${qSaved?`<button onclick="openQuote('${qSaved.id}')" style="display:inline-flex;align-items:center;gap:6px;background:#F0FAF3;color:var(--green-hover);border:1px solid var(--green-light);border-radius:6px;padding:7px 14px;font-family:Montserrat;font-weight:700;font-size:11.5px;cursor:pointer;margin-top:8px;margin-left:6px">Προβολή</button>`:''}</div></div>`;
+    document.getElementById('b-result').innerHTML=`<div style="background:#fff;border:2px solid var(--green);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;max-width:480px;margin:0 auto"><span style="font-size:28px">✅</span><div style="text-align:left"><div style="font-family:Montserrat;font-weight:700;color:var(--green-hover);font-size:13px">PDF δημιουργήθηκε!</div><div style="font-size:11.5px;color:#6B7280;margin-top:2px">${esc(payload.quote.quote_number)} — ${esc(name)}</div><a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;border-radius:6px;padding:7px 14px;font-family:Montserrat;font-weight:700;font-size:11.5px;text-decoration:none;margin-top:8px">Άνοιγμα PDF</a></div></div>`;
   }catch(err){document.getElementById('b-result').innerHTML=`<div style="background:#FEF2F2;border:2px solid var(--red);border-radius:10px;padding:12px 16px;color:#B91C1C;font-size:12.5px;max-width:480px;margin:0 auto"><strong>Σφάλμα:</strong> ${esc(err.message)}</div>`}
   finally{btn.disabled=false;btn.innerHTML='<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg> Δημιουργία PDF Προσφοράς'}
-}
-
-// ─── Regenerate PDF for existing quote ────────────────────
-async function regenPDF(quoteId){
-  const q=S.quotes.find(r=>r.id===quoteId);
-  if(!q){alert('Η προσφορά δεν βρέθηκε.');return;}
-  const {data:lines,error:le}=await sb.from('quote_line_items').select('*').eq('quote_id',quoteId).order('sort_order');
-  const cl=q.clients||{};
-  const lineItems=(lines||[]).map(l=>({description:l.description,quantity:l.quantity,unit:l.unit||'εφαπ.',unit_price:l.unit_price}));
-  if(!lineItems.length&&q.notes)lineItems.push({description:q.notes.split('\n')[0]||'Εργασίες',quantity:1,unit:'εφαπ.',unit_price:Number(q.subtotal||q.total||0)});
-  const payload={language:'el',quote:{quote_number:q.quote_number,type:'quote',vat_pct:Number(q.vat_pct||24),discount_pct:0,notes:q.notes||'',valid_until:'',created_at:q.date_issued},client:{full_name:cl.full_name||'',phone:cl.phone||'',email:cl.email||'',address:'',area:cl.city||''},job:{title:cleanAddr(q.property_address)||q.quote_number,address:q.property_address||''},line_items:lineItems};
-  const btn=event?.target;if(btn){btn.disabled=true;btn.textContent='⏳ Δημιουργία...'}
-  try{
-    const res=await fetch(LAMBDA,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.error||data.message||`HTTP ${res.status}`);
-    const url=data.url||data.pdf_url||data.presigned_url;
-    if(!url)throw new Error('Δεν επιστράφηκε URL.');
-    // Store URL back
-    await sb.from('quotes').update({source_file:url}).eq('id',quoteId);
-    const idx=S.quotes.findIndex(r=>r.id===quoteId);if(idx>-1)S.quotes[idx].source_file=url;
-    window.open(url,'_blank');
-  }catch(err){alert('Σφάλμα: '+err.message);}
-  finally{if(btn){btn.disabled=false;btn.textContent='📄 Δημιουργία PDF'}}
 }
 
 // ─── ANALYTICS ─────────────────────────────────────────────
@@ -1953,360 +1484,10 @@ function renderAnalytics(t,c){
   },80);
 }
 
-// ─── LEADS ─────────────────────────────────────────────────
-function leadStatusLabel(s){return s==='new'?'Νέο':s==='contacted'?'Επικοινωνία':s==='converted'?'Πελάτης':s==='lost'?'Χάθηκε':'Νέο'}
-function leadStatusClass(s){return s==='new'?'b-green':s==='contacted'?'b-amber':s==='converted'?'b-blue':s==='lost'?'b-red':'b-green'}
-
-async function saveLead(id, patch){
-  const {data,error}=await sb.from('leads').update(patch).eq('id',id).select().single();
-  if(error){alert('Σφάλμα αποθήκευσης: '+error.message);return null;}
-  const idx=S.leads.findIndex(l=>l.id===id);
-  if(idx>-1)S.leads[idx]={...S.leads[idx],...data};
-  return data;
-}
-
-async function createJob(leadId, clientId, title, notes){
-  const {data,error}=await sb.from('jobs').insert({title,client_id:clientId||null,status:'planning',notes}).select().single();
-  if(error){alert('Σφάλμα δημιουργίας έργου: '+error.message);return null;}
-  S.jobs.unshift(data);
-  if(leadId) await saveLead(leadId,{status:'converted'});
-  document.getElementById('badge-jobs').textContent=S.jobs.filter(j=>j.status==='active'||j.status==='in_progress').length||S.jobs.length;
-  return data;
-}
-
-function showLeadModal(lead){
-  const clientName=lead.clients?.full_name||lead.full_name||'—';
-  const isRet=lead.is_returning;
-  showModal(`
-    <div style="padding:24px 28px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <div style="flex:1">
-          <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue)">${esc(lead.full_name||'—')}</div>
-          <div style="font-size:11px;color:#9CA3AF;margin-top:3px">${esc(lead.phone||'')} ${lead.email?'· '+esc(lead.email):''}</div>
-        </div>
-        <span style="padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;${isRet?'background:#EFF6FF;color:#1D4ED8':'background:#F0FAF3;color:#15803D'}">${isRet?'🔵 ΕΠΙΣΤΡΕΦΩΝ':'🟢 ΝΕΟ'}</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:12px">
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΤΥΠΟΣ ΕΡΓΑΣΙΑΣ</div><div>${esc(lead.work_type||'—')}</div></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΠΕΡΙΟΧΗ</div><div>${esc(lead.area||'—')}</div></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ</div><div>${esc(lead.budget_range||'—')}</div></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΗΜΕΡΟΜΗΝΙΑ</div><div>${fdate(lead.submitted_at)}</div></div>
-      </div>
-      ${lead.description?`<div style="background:#F9FAFB;border-radius:8px;padding:12px;font-size:12px;color:#374151;margin-bottom:16px;line-height:1.6">${esc(lead.description)}</div>`:''}
-      <div style="margin-bottom:16px">
-        <label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:6px">ΚΑΤΑΣΤΑΣΗ</label>
-        <select id="lead-status-sel" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff">
-          <option value="new" ${lead.status==='new'?'selected':''}>Νέο</option>
-          <option value="contacted" ${lead.status==='contacted'?'selected':''}>Επικοινωνία</option>
-          <option value="converted" ${lead.status==='converted'?'selected':''}>Πελάτης</option>
-          <option value="lost" ${lead.status==='lost'?'selected':''}>Χάθηκε</option>
-        </select>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button onclick="(async()=>{const s=document.getElementById('lead-status-sel').value;await saveLead('${lead.id}',{status:s});render();closeModal()})()" style="flex:1;min-width:120px;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        ${lead.client_id?`<button onclick="go('builder');closeModal()" style="flex:1;min-width:120px;padding:10px 16px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">+ Προσφορά</button>`:`<button onclick="(async()=>{const j=await createJob('${lead.id}',null,'${esc(lead.work_type||lead.full_name||'Νέο Έργο')}','${esc(lead.description||'')}');if(j){go('jobs');closeModal()}})()" style="flex:1;min-width:120px;padding:10px 16px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">→ Έργο</button>`}
-      </div>
-    </div>
-  `);
-}
-
-function renderLeads(t,c){
-  const tabs=[['all','Όλα'],['new','Νέα'],['contacted','Επικοινωνία'],['converted','Πελάτης'],['lost','Χάθηκε']];
-  const filtered=S.leads.filter(l=>S.leadsTab==='all'||l.status===S.leadsTab);
-  const newCount=S.leads.filter(l=>l.status==='new').length;
-  setTopbar(`<h2>Leads <span style="font-size:13px;font-weight:500;color:#9CA3AF">${newCount} νέα</span></h2>`,
-    `<button class="btn btn-primary" onclick="showNewLeadModal()"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>Νέο Lead</button>`);
-  c.innerHTML=`
-    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-      ${tabs.map(([v,l])=>`<button onclick="S.leadsTab='${v}';render()" style="padding:6px 14px;border-radius:20px;border:none;cursor:pointer;font-size:12px;font-weight:700;${S.leadsTab===v?'background:var(--blue);color:#fff':'background:#fff;color:#6B7280;border:1px solid var(--border)'}">${l}</button>`).join('')}
-    </div>
-    <div style="display:grid;gap:10px">
-      ${filtered.length===0?`<div style="text-align:center;padding:60px 20px;color:#9CA3AF;font-family:Montserrat;font-size:13px">Δεν υπάρχουν leads</div>`:filtered.map(lead=>{
-        const isRet=lead.is_returning;
-        return `<div class="card" style="cursor:pointer" onclick="showLeadModal(S.leads.find(l=>l.id==='${lead.id}'))">
-          <div class="card-body" style="display:flex;align-items:center;gap:14px;padding:14px 18px">
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-                <div style="font-weight:700;font-size:14px">${esc(lead.full_name||'—')}</div>
-                <span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;flex-shrink:0;${isRet?'background:#EFF6FF;color:#1D4ED8':'background:#F0FAF3;color:#15803D'}">${isRet?'🔵 ΕΠΙΣΤΡΕΦΩΝ':'🟢 ΝΕΟ'}</span>
-              </div>
-              <div style="font-size:11px;color:#6B7280">${esc(lead.work_type||'—')} ${lead.area?'· '+esc(lead.area):''} ${lead.phone?'· '+esc(lead.phone):''}</div>
-              ${lead.description?`<div style="font-size:11px;color:#9CA3AF;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:480px">${esc(lead.description)}</div>`:''}
-            </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div class="badge ${leadStatusClass(lead.status)}" style="margin-bottom:4px">${leadStatusLabel(lead.status)}</div>
-              <div style="font-size:10px;color:#9CA3AF">${fdate(lead.submitted_at)}</div>
-            </div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-}
-
-function showNewLeadModal(){
-  showModal(`
-    <div style="padding:24px 28px">
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:20px">Νέο Lead</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΟΝΟΜΑ</label><input id="nl-name" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Γιώργης Παπάς"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΤΗΛΕΦΩΝΟ</label><input id="nl-phone" type="tel" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="6971234567"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">EMAIL</label><input id="nl-email" type="email" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΠΕΡΙΟΧΗ</label><input id="nl-area" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Κολωνάκι"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΤΥΠΟΣ ΕΡΓΑΣΙΑΣ</label><input id="nl-type" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Βαψίματα"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ</label><input id="nl-budget" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="1000-2000€"></div>
-      </div>
-      <div style="margin-bottom:16px"><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΠΕΡΙΓΡΑΦΗ</label><textarea id="nl-desc" rows="3" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;resize:vertical"></textarea></div>
-      <div style="display:flex;gap:10px">
-        <button onclick="(async()=>{
-          const name=document.getElementById('nl-name').value.trim();
-          const phone=document.getElementById('nl-phone').value.trim();
-          const email=document.getElementById('nl-email').value.trim();
-          if(!name&&!phone){alert('Συμπλήρωσε τουλάχιστον όνομα ή τηλέφωνο');return;}
-          const {data,error}=await sb.from('leads').insert({full_name:name,phone,email,area:document.getElementById('nl-area').value.trim(),work_type:document.getElementById('nl-type').value.trim(),budget_range:document.getElementById('nl-budget').value.trim(),description:document.getElementById('nl-desc').value.trim(),status:'new',source:'manual'}).select().single();
-          if(error){alert('Σφάλμα: '+error.message);return;}
-          S.leads.unshift(data);
-          document.getElementById('badge-leads').textContent=S.leads.filter(l=>l.status==='new').length||S.leads.length;
-          render();closeModal();
-        })()" style="flex:1;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        <button onclick="closeModal()" style="padding:10px 16px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Ακύρωση</button>
-      </div>
-    </div>
-  `);
-}
-
-// ─── JOBS ──────────────────────────────────────────────────
-function jobStatusLabel(s){return s==='planning'?'Προγραμμ.':s==='active'?'Ενεργό':s==='in_progress'?'Σε εξέλιξη':s==='completed'?'Ολοκληρώθηκε':s==='on_hold'?'Παύση':'—'}
-function jobStatusClass(s){return s==='active'||s==='in_progress'?'b-green':s==='completed'?'b-blue':s==='planning'?'b-amber':'b-gray'}
-
-function showJobModal(job){
-  const clientName=job.clients?.full_name||'—';
-  showModal(`
-    <div style="padding:24px 28px;max-width:520px">
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:20px">${esc(job.title||'Έργο')}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:12px">
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΠΕΛΑΤΗΣ</div><div>${esc(clientName)}</div></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΚΑΤΑΣΤΑΣΗ</div>
-          <select id="job-status-sel" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
-            <option value="planning" ${job.status==='planning'?'selected':''}>Προγραμματισμός</option>
-            <option value="active" ${job.status==='active'?'selected':''}>Ενεργό</option>
-            <option value="in_progress" ${job.status==='in_progress'?'selected':''}>Σε εξέλιξη</option>
-            <option value="on_hold" ${job.status==='on_hold'?'selected':''}>Παύση</option>
-            <option value="completed" ${job.status==='completed'?'selected':''}>Ολοκληρώθηκε</option>
-          </select>
-        </div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΕΝΑΡΞΗ</div><input id="job-start" type="date" value="${job.start_date||''}" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px"></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΛΗΞΗ</div><input id="job-end" type="date" value="${job.end_date||''}" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px"></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ</div><input id="job-budget" type="number" value="${job.budget||''}" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px" placeholder="€"></div>
-        <div><div style="color:#9CA3AF;font-size:10px;margin-bottom:3px">ΠΡΑΓΜΑΤΙΚΟ ΚΟΣΤΟΣ</div><input id="job-cost" type="number" value="${job.actual_cost||''}" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px" placeholder="€"></div>
-      </div>
-      <div style="margin-bottom:16px"><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΣΗΜΕΙΩΣΕΙΣ</label><textarea id="job-notes" rows="3" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;resize:vertical">${esc(job.notes||'')}</textarea></div>
-      <div style="display:flex;gap:10px">
-        <button onclick="(async()=>{
-          const patch={status:document.getElementById('job-status-sel').value,start_date:document.getElementById('job-start').value||null,end_date:document.getElementById('job-end').value||null,budget:Number(document.getElementById('job-budget').value)||null,actual_cost:Number(document.getElementById('job-cost').value)||null,notes:document.getElementById('job-notes').value.trim()};
-          const {data,error}=await sb.from('jobs').update(patch).eq('id','${job.id}').select().single();
-          if(error){alert('Σφάλμα: '+error.message);return;}
-          const idx=S.jobs.findIndex(j=>j.id==='${job.id}');if(idx>-1)S.jobs[idx]={...S.jobs[idx],...data};
-          render();closeModal();
-        })()" style="flex:1;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        <button onclick="closeModal()" style="padding:10px 16px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Κλείσιμο</button>
-      </div>
-    </div>
-  `);
-}
-
-function renderJobs(t,c){
-  const tabs=[['all','Όλα'],['active','Ενεργά'],['in_progress','Σε εξέλιξη'],['planning','Προγραμμ.'],['completed','Ολοκλ.']];
-  const filtered=S.jobs.filter(j=>S.jobsTab==='all'||j.status===S.jobsTab);
-  const active=S.jobs.filter(j=>j.status==='active'||j.status==='in_progress').length;
-  setTopbar(`<h2>Έργα <span style="font-size:13px;font-weight:500;color:#9CA3AF">${active} ενεργά</span></h2>`,
-    `<button class="btn btn-primary" onclick="showNewJobModal()"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>Νέο Έργο</button>`);
-  c.innerHTML=`
-    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-      ${tabs.map(([v,l])=>`<button onclick="S.jobsTab='${v}';render()" style="padding:6px 14px;border-radius:20px;border:none;cursor:pointer;font-size:12px;font-weight:700;${S.jobsTab===v?'background:var(--blue);color:#fff':'background:#fff;color:#6B7280;border:1px solid var(--border)'}">${l}</button>`).join('')}
-    </div>
-    <div style="display:grid;gap:10px">
-      ${filtered.length===0?`<div style="text-align:center;padding:60px 20px;color:#9CA3AF;font-family:Montserrat;font-size:13px">Δεν υπάρχουν έργα</div>`:filtered.map(job=>{
-        const clientName=job.clients?.full_name||'—';
-        const hasBudget=job.budget>0;
-        const hasActual=job.actual_cost>0;
-        const pct=hasBudget&&hasActual?Math.min(100,Math.round(job.actual_cost/job.budget*100)):null;
-        return `<div class="card" style="cursor:pointer" onclick="showJobModal(S.jobs.find(j=>j.id==='${job.id}'))">
-          <div class="card-body" style="padding:14px 18px">
-            <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:6px">
-              <div style="flex:1;min-width:0">
-                <div style="font-weight:700;font-size:14px;margin-bottom:3px">${esc(job.title||'—')}</div>
-                <div style="font-size:11px;color:#6B7280">${esc(clientName)} ${job.start_date?'· Έναρξη: '+fdate(job.start_date):''}</div>
-              </div>
-              <div class="badge ${jobStatusClass(job.status)}">${jobStatusLabel(job.status)}</div>
-            </div>
-            ${hasBudget?`<div style="display:flex;align-items:center;gap:10px;margin-top:6px">
-              <div style="flex:1;height:4px;background:#E5E7EB;border-radius:2px;overflow:hidden">
-                <div style="height:100%;width:${pct||0}%;background:${(pct||0)>90?'var(--red)':'var(--green)'};border-radius:2px;transition:width .3s"></div>
-              </div>
-              <div style="font-size:11px;color:#6B7280;white-space:nowrap">${hasActual?eur(job.actual_cost)+' / ':''} ${eur(job.budget)}</div>
-            </div>`:''}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-}
-
-function showNewJobModal(){
-  showModal(`
-    <div style="padding:24px 28px">
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:20px">Νέο Έργο</div>
-      <div style="display:grid;gap:12px;margin-bottom:16px">
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΤΙΤΛΟΣ *</label><input id="nj-title" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="π.χ. Βαψίματα Κολωνάκι"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΠΕΛΑΤΗΣ</label>
-          <select id="nj-client" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px">
-            <option value="">— Χωρίς πελάτη —</option>
-            ${S.clients.map(cl=>`<option value="${cl.id}">${esc(cl.full_name)}</option>`).join('')}
-          </select>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΕΝΑΡΞΗ</label><input id="nj-start" type="date" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px"></div>
-          <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ</label><input id="nj-budget" type="number" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="€"></div>
-        </div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΣΗΜΕΙΩΣΕΙΣ</label><textarea id="nj-notes" rows="3" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;resize:vertical"></textarea></div>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="(async()=>{
-          const title=document.getElementById('nj-title').value.trim();
-          if(!title){alert('Ο τίτλος είναι υποχρεωτικός');return;}
-          const {data,error}=await sb.from('jobs').insert({title,client_id:document.getElementById('nj-client').value||null,start_date:document.getElementById('nj-start').value||null,budget:Number(document.getElementById('nj-budget').value)||null,notes:document.getElementById('nj-notes').value.trim(),status:'planning'}).select('id,title,status,client_id,start_date,end_date,budget,actual_cost,notes,created_at,clients(full_name,phone)').single();
-          if(error){alert('Σφάλμα: '+error.message);return;}
-          S.jobs.unshift(data);
-          document.getElementById('badge-jobs').textContent=S.jobs.filter(j=>j.status==='active'||j.status==='in_progress').length||S.jobs.length;
-          render();closeModal();
-        })()" style="flex:1;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        <button onclick="closeModal()" style="padding:10px 16px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Ακύρωση</button>
-      </div>
-    </div>
-  `);
-}
-
-// ─── WORKERS ───────────────────────────────────────────────
-function workerStatusLabel(s){return s==='active'?'Ενεργός':s==='inactive'?'Ανενεργός':'—'}
-
-function showWorkerModal(worker){
-  showModal(`
-    <div style="padding:24px 28px;max-width:520px">
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:20px">${esc(worker.full_name||'—')}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΤΗΛΕΦΩΝΟ</label><input id="w-phone" type="tel" value="${esc(worker.phone||'')}" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΕΙΔΙΚΟΤΗΤΑ</label><input id="w-spec" type="text" value="${esc(Array.isArray(worker.specialty)?worker.specialty.join(', '):(worker.specialty||''))}" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Βαφέας, Ελαιοχρωματιστής..."></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΗΜΕΡΟΜΙΣΘΙΟ (€)</label><input id="w-rate" type="number" value="${worker.daily_rate||''}" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="80"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΚΑΤΑΣΤΑΣΗ</label>
-          <select id="w-status" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px">
-            <option value="active" ${worker.status==='active'?'selected':''}>Ενεργός</option>
-            <option value="inactive" ${worker.status==='inactive'?'selected':''}>Ανενεργός</option>
-          </select>
-        </div>
-      </div>
-      <div style="margin-bottom:16px"><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΣΗΜΕΙΩΣΕΙΣ</label><textarea id="w-notes" rows="3" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;resize:vertical">${esc(worker.notes||'')}</textarea></div>
-      <div style="display:flex;gap:10px">
-        <button onclick="(async()=>{
-          const specVal=document.getElementById('w-spec').value.trim();
-          const patch={phone:document.getElementById('w-phone').value.trim(),specialty:specVal?specVal.split(/[,;]+/).map(s=>s.trim()).filter(Boolean):null,daily_rate:Number(document.getElementById('w-rate').value)||null,status:document.getElementById('w-status').value,notes:document.getElementById('w-notes').value.trim()};
-          const {data,error}=await sb.from('workers').update(patch).eq('id','${worker.id}').select().single();
-          if(error){alert('Σφάλμα: '+error.message);return;}
-          const idx=S.workers.findIndex(w=>w.id==='${worker.id}');if(idx>-1)S.workers[idx]={...S.workers[idx],...data};
-          render();closeModal();
-        })()" style="flex:1;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        <button onclick="closeModal()" style="padding:10px 16px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Κλείσιμο</button>
-      </div>
-    </div>
-  `);
-}
-
-function renderWorkers(t,c){
-  const active=S.workers.filter(w=>w.status==='active'||!w.status).length;
-  setTopbar(`<h2>Εργάτες <span style="font-size:13px;font-weight:500;color:#9CA3AF">${active} ενεργοί</span></h2>`,
-    `<button class="btn btn-primary" onclick="showNewWorkerModal()"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>Νέος Εργάτης</button>`);
-  c.innerHTML=`
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
-      ${S.workers.length===0?`<div style="text-align:center;padding:60px 20px;color:#9CA3AF;font-family:Montserrat;font-size:13px;grid-column:1/-1">Δεν υπάρχουν εργάτες</div>`:S.workers.map(w=>{
-        const isActive=!w.status||w.status==='active';
-        return `<div class="card" style="cursor:pointer" onclick="showWorkerModal(S.workers.find(x=>x.id==='${w.id}'))">
-          <div class="card-body" style="padding:16px 18px">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-              <div style="width:38px;height:38px;border-radius:50%;background:${isActive?'var(--green)':'#9CA3AF'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <span style="font-family:Montserrat;font-weight:800;font-size:14px;color:#fff">${(w.full_name||'?').charAt(0).toUpperCase()}</span>
-              </div>
-              <div style="flex:1;min-width:0">
-                <div style="font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(w.full_name||'—')}</div>
-                <div style="font-size:11px;color:#6B7280">${esc(Array.isArray(w.specialty)?w.specialty.join(', '):(w.specialty||'Χωρίς ειδικότητα'))}</div>
-              </div>
-              <span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;flex-shrink:0;${isActive?'background:#F0FAF3;color:#15803D':'background:#F3F4F6;color:#9CA3AF'}">${workerStatusLabel(w.status||'active')}</span>
-            </div>
-            <div style="display:flex;gap:16px;font-size:11px;color:#6B7280">
-              ${w.phone?`<div>📞 ${esc(w.phone)}</div>`:''}
-              ${w.daily_rate?`<div>💶 ${eur(w.daily_rate)}/ημέρα</div>`:''}
-            </div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-}
-
-function showNewWorkerModal(){
-  showModal(`
-    <div style="padding:24px 28px">
-      <div style="font-family:Montserrat;font-weight:800;font-size:16px;color:var(--blue);margin-bottom:20px">Νέος Εργάτης</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div style="grid-column:1/-1"><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΟΝΟΜΑ *</label><input id="nw-name" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Γιώργης Παπάς"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΤΗΛΕΦΩΝΟ</label><input id="nw-phone" type="tel" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="6971234567"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΕΙΔΙΚΟΤΗΤΑ</label><input id="nw-spec" type="text" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="Βαφέας"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΗΜΕΡΟΜΙΣΘΙΟ (€)</label><input id="nw-rate" type="number" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px" placeholder="80"></div>
-        <div><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΚΑΤΑΣΤΑΣΗ</label>
-          <select id="nw-status" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px">
-            <option value="active">Ενεργός</option>
-            <option value="inactive">Ανενεργός</option>
-          </select>
-        </div>
-      </div>
-      <div style="margin-bottom:16px"><label style="font-size:11px;font-weight:700;color:#6B7280;display:block;margin-bottom:4px">ΣΗΜΕΙΩΣΕΙΣ</label><textarea id="nw-notes" rows="2" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;resize:vertical"></textarea></div>
-      <div style="display:flex;gap:10px">
-        <button onclick="(async()=>{
-          const name=document.getElementById('nw-name').value.trim();
-          if(!name){alert('Το όνομα είναι υποχρεωτικό');return;}
-          const nwSpec=document.getElementById('nw-spec').value.trim();
-          const {data,error}=await sb.from('workers').insert({full_name:name,phone:document.getElementById('nw-phone').value.trim(),specialty:nwSpec?nwSpec.split(/[,;]+/).map(s=>s.trim()).filter(Boolean):null,daily_rate:Number(document.getElementById('nw-rate').value)||null,status:document.getElementById('nw-status').value,notes:document.getElementById('nw-notes').value.trim()}).select().single();
-          if(error){alert('Σφάλμα: '+error.message);return;}
-          S.workers.push(data);
-          S.workers.sort((a,b)=>(a.full_name||'').localeCompare(b.full_name||'','el'));
-          document.getElementById('badge-workers').textContent=S.workers.length;
-          render();closeModal();
-        })()" style="flex:1;padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Αποθήκευση</button>
-        <button onclick="closeModal()" style="padding:10px 16px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Ακύρωση</button>
-      </div>
-    </div>
-  `);
-}
-
-// ─── Auth ──────────────────────────────────────────────────
-const AUTH_PINS=['1234','2024','5678']; // Office PINs — will move to Supabase later
-function authLogin(){
-  const pin=document.getElementById('auth-pin').value.trim();
-  if(!pin){document.getElementById('auth-error').textContent='Εισάγετε κωδικό';return}
-  if(!AUTH_PINS.includes(pin)){document.getElementById('auth-error').textContent='Λάθος κωδικός';document.getElementById('auth-pin').value='';return}
-  sessionStorage.setItem('sa_auth','1');
-  bootApp();
-}
-function bootApp(){
-  document.getElementById('auth-gate').style.display='none';
-  document.getElementById('main-app').style.display='';
-  document.getElementById('loading').classList.remove('hidden');
-  document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-  loadData().then(()=>go('dashboard'));
-}
-
 // ─── Boot ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  // If already authed this session, skip login
-  if(sessionStorage.getItem('sa_auth')==='1'){bootApp();return}
-  // Otherwise show auth gate, focus PIN input
-  document.getElementById('auth-pin').focus();
+  document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+  loadData().then(()=>go('dashboard'));
 });
 </script>
 </body>
