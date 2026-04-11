@@ -6,6 +6,8 @@ import Dashboard from '@/pages/Dashboard'
 import Leads from '@/pages/Leads'
 import CalendarPage from '@/pages/CalendarPage'
 import Proposals from '@/pages/Proposals'
+import ProposalDetail from '@/pages/ProposalDetail'
+import NewProposal from '@/pages/NewProposal'
 import Jobs from '@/pages/Jobs'
 import Customers from '@/pages/Customers'
 import Workers from '@/pages/Workers'
@@ -44,8 +46,8 @@ export default function App() {
           <Route path="aitimata" element={<Leads />} />
           <Route path="imerologio" element={<CalendarPage />} />
           <Route path="prosfores" element={<Proposals />} />
-          <Route path="prosfores/:id" element={<div className="p-4 text-brand-text-secondary">Λεπτομέρειες Προσφοράς — σύντομα</div>} />
-          <Route path="prosfores/nea" element={<div className="p-4 text-brand-text-secondary">Νέα Προσφορά — σύντομα</div>} />
+          <Route path="prosfores/nea" element={<NewProposal />} />
+          <Route path="prosfores/:id" element={<ProposalDetail />} />
           <Route path="erga" element={<Jobs />} />
           <Route path="erga/:id" element={<div className="p-4 text-brand-text-secondary">Λεπτομέρειες Έργου — σύντομα</div>} />
           <Route path="pelates" element={<Customers />} />
