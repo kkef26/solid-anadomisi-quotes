@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Ergotaxia — Solid Anadomisi brand */
+@theme {
+  --color-brand-primary: #E8651D;
+  --color-brand-secondary: #3D4550;
+  --color-brand-accent: #F9F7F4;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-muted: #F5F5F3;
+  --color-brand-border: #E5E5E3;
+  --color-brand-text: #1A1A1A;
+  --color-brand-text-secondary: #6B7280;
+
+  --color-status-pending: #F59E0B;
+  --color-status-active: #22C55E;
+  --color-status-completed: #3B82F6;
+  --color-status-cancelled: #EF4444;
+
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-brand-text);
+    background: var(--color-brand-muted);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+}
