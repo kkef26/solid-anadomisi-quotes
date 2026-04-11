@@ -6,9 +6,9 @@ import Dashboard from '@/pages/Dashboard'
 import Leads from '@/pages/Leads'
 import CalendarPage from '@/pages/CalendarPage'
 import Proposals from '@/pages/Proposals'
-import ProposalDetail from '@/pages/ProposalDetail'
-import NewProposal from '@/pages/NewProposal'
 import Jobs from '@/pages/Jobs'
+import JobDetail from '@/pages/JobDetail'
+import WalkthroughCapture from '@/pages/WalkthroughCapture'
 import Customers from '@/pages/Customers'
 import Workers from '@/pages/Workers'
 import SettingsPage from '@/pages/SettingsPage'
@@ -46,10 +46,11 @@ export default function App() {
           <Route path="aitimata" element={<Leads />} />
           <Route path="imerologio" element={<CalendarPage />} />
           <Route path="prosfores" element={<Proposals />} />
-          <Route path="prosfores/nea" element={<NewProposal />} />
-          <Route path="prosfores/:id" element={<ProposalDetail />} />
+          <Route path="prosfores/:id" element={<div className="p-4 text-brand-text-secondary">Λεπτομέρειες Προσφοράς — σύντομα</div>} />
+          <Route path="prosfores/nea" element={<div className="p-4 text-brand-text-secondary">Νέα Προσφορά — σύντομα</div>} />
           <Route path="erga" element={<Jobs />} />
-          <Route path="erga/:id" element={<div className="p-4 text-brand-text-secondary">Λεπτομέρειες Έργου — σύντομα</div>} />
+          <Route path="erga/:id" element={<JobDetail />} />
+          <Route path="aftopsia/:id" element={<WalkthroughCapture />} />
           <Route path="pelates" element={<Customers />} />
           <Route path="pelates/:id" element={<div className="p-4 text-brand-text-secondary">Λεπτομέρειες Πελάτη — σύντομα</div>} />
           <Route path="synergates" element={<Workers />} />
