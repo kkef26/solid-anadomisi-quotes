@@ -723,7 +723,7 @@ async function loadData(){
   loadEl.classList.remove('hidden');
   try{
     const [qr,cr,fr,cpr,spr,parsedRes,lr,jr,wr]=await Promise.all([
-      sb.from('quotes').select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').order('date_issued',{ascending:false}).limit(600),
+      sb.from('quotes').select('id,quote_number,entity,status,subtotal,vat_pct,vat_amount,total,notes,work_categories,date_issued,property_address,payment_terms,vat_included,original_status,source_file,client_id,clients(id,full_name,phone,email,company,city)').order('date_issued',{ascending:false}).limit(2000),
       sb.from('clients').select('id,full_name,company,phone,email,city,area,address,vat_number,total_quoted,total_paid,project_count').order('total_quoted',{ascending:false}),
       sb.from('ergo_project_files').select('id,filename,file_type,file_size_bytes,quote_id,client_id,created_at').order('created_at',{ascending:false}).limit(500),
       sb.from('ergo_category_pricing').select('*').order('sample_count',{ascending:false}),
@@ -764,7 +764,7 @@ function computeStats(){
   const q=S.quotes;
   const s={totalQuotes:q.length,totalValue:0,byEntity:{},byStatus:{},byCategory:{},byMonth:{},parsedCount:0,withSections:0,withMaterials:0};
   q.forEach(r=>{
-    s.totalValue+=Number(r.total||0);
+    s.totalValue+=getNetAmt(r);
     const ent=r.entity||'Άλλο';
     s.byEntity[ent]=(s.byEntity[ent]||0)+Number(r.total||0);
     const st=r.status||'sent';
@@ -957,7 +957,7 @@ function renderDashboard(t,c){
   const s=S.stats;
   const accepted=s.byStatus.accepted||{count:0,value:0};
   const pending=s.byStatus.pending||{count:0,value:0};
-  setTopbar(`<h2>Dashboard</h2><div style="font-size:11px;color:#9CA3AF;margin-top:2px">${new Date().toLocaleDateString('el-GR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>`,
+  setTopbar(`<h2>Πίνακας Ελέγχου</h2><div style="font-size:11px;color:#9CA3AF;margin-top:2px">${new Date().toLocaleDateString('el-GR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>`,
     `<button class="btn btn-primary" onclick="go('builder')"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>Νέα Προσφορά</button>`);
 
   c.innerHTML=`
@@ -988,7 +988,7 @@ function renderDashboard(t,c){
         ${Object.entries(s.byEntity).sort((a,b)=>b[1]-a[1]).map(([ent,val])=>{
           const pct=(val/s.totalValue*100).toFixed(1);
           const color=ent==='CLEMIC'?'var(--blue)':ent==='SOLID ANADOMISI EE'?'var(--green)':'#9CA3AF';
-          const cnt=S.quotes.filter(q=>q.entity===ent).length;
+          const cnt=S.quotes.filter(q=>(q.entity||'Άλλο')===ent).length;
           return `<div style="margin-bottom:14px">
             <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
               <span style="font-weight:700">${ent} <span style="font-weight:400;color:#9CA3AF">(${cnt} προσφ.)</span></span>
@@ -1188,7 +1188,7 @@ async function openQuote(id){
     </div>
     <div class="qd-grid-2" style="margin-top:8px">
       <div class="qd-field"><div class="qf-label">Κατάσταση</div><div class="qf-value"><span id="status-pill-${q.id}" class="badge ${statusClass(q.status)} status-pill" style="font-size:11.5px;padding:4px 14px;cursor:pointer" onclick="cycleStatus('${q.id}')" title="Κλικ για αλλαγή">${statusLabel(q.status)}</span> <span style="font-size:9px;color:#9CA3AF;margin-left:4px">κλικ για αλλαγή</span></div></div>
-      <div class="qd-field"><div class="qf-label">Φάκελος</div><div class="qf-value">${esc(q.original_status||'—')}</div></div>
+      <div class="qd-field"><div class="qf-label">Φάκελος</div><div class="qf-value">${statusLabel(q.original_status)||esc(q.original_status||'—')}</div></div>
     </div>
   </div></div>`;
 
