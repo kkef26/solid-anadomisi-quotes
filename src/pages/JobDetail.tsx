@@ -81,7 +81,7 @@ export default function JobDetail() {
       <EmptyState
         icon={<Briefcase size={32} />}
         title="Το έργο δεν βρέθηκε"
-        description={error || 'Ελέγξτε τον σύνδεσμο και δοκιμάστε ξανά.\'}
+        description={error || 'Ελέγξτε τον σύνδεσμο και δοκιμάστε ξανά.'}
         action={
           <Link to="/erga" className="text-brand-primary text-sm font-medium">
             ← Πίσω στα Έργα
@@ -309,7 +309,7 @@ export default function JobDetail() {
                   </div>
                   {p.description && <p className="text-xs text-brand-text-secondary">{p.description}</p>}
                   <p className="text-xs text-brand-text-secondary">
-                    {fmtDate(p.paid_at)}{p.method ? ` · ${METHOD_LABELS[p.method] || p.method}` : '\}
+                    {fmtDate(p.paid_at)}{p.method ? ` · ${METHOD_LABELS[p.method] || p.method}` : ''}
                   </p>
                 </div>
                 <p className={`font-mono text-sm font-semibold shrink-0 ${

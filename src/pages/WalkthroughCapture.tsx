@@ -10,7 +10,7 @@ export default function WalkthroughCapture() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [walkthrough, setWalkthrough] = useState<Walkthrough | null>(null)
-  const [rawText, setRawText] = useState('\)
+  const [rawText, setRawText] = useState('')
   const [items, setItems] = useState<WalkthroughItem[]>([])
   const [editingIdx, setEditingIdx] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
@@ -133,11 +133,7 @@ export default function WalkthroughCapture() {
           value={rawText}
           onChange={e => setRawText(e.target.value)}
           onBlur={handleSaveRaw}
-          placeholder={
-            'Μιλήστε ή πληκτρολογήστε τις παρατηρήσεις αυτοψίας…
-
-π.χ. «Στο μπάνιο χρειάζεται αντικατάσταση πλακιδίων, τα μισά είναι σπασμένα. Στο σαλόνι βαψίματα και στόκος. Ηλεκτρολογικός πίνακας παλιός, χρειάζεται αναβάθμιση...»'
-          }
+          placeholder={'Μιλήστε ή πληκτρολογήστε τις παρατηρήσεις αυτοψίας…\n\nπ.χ. «Στο μπάνιο χρειάζεται αντικατάσταση πλακιδίων, τα μισά είναι σπασμένα. Στο σαλόνι βαψίματα και στόκος. Ηλεκτρολογικός πίνακας παλιός, χρειάζεται αναβάθμιση...»'}
           className="w-full text-sm text-brand-text placeholder:text-brand-text-secondary/50 bg-brand-muted border border-brand-border rounded-[6px] p-3 resize-y focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary leading-relaxed"
           style={{ minHeight: 220 }}
         />
